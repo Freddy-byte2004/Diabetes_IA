@@ -1,5 +1,5 @@
 .navbar{
-    background-color: rgb(201, 211, 255);
+    background-color: #d3e8f7;
     height: 87vh;
     width: 16vw;
     position: absolute;
@@ -102,3 +102,23 @@
     
 }
 
+.icono-navbar{
+
+    padding: 0 8px;
+    font-size: 25px;
+}
+
+.navbar-content a {
+    display: flex;
+    align-items: center;
+}
+
+.texto-navbar:hover {
+   
+    color: #f7f7f7;
+    cursor: pointer;
+}
+.texto-navbar{
+    color:rgb(79, 92, 97);
+    font-size: 15px;
+}

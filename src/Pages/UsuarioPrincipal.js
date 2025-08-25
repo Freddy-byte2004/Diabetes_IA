@@ -4,9 +4,10 @@ import '../css/UsuarioPrincipal.css';
 import {Navbar} from '../Componentes/Navbar';
 import {InputField} from '../Componentes/inputField.js';
 import {ProbabilityDonut} from '../Componentes/barraDonat.js';
+import { Barra } from '../Componentes/barra.js';
 
 function UsuarioPrincipal(){
-    let probability = 70;
+    let probability = 50;
 
     return(
 
@@ -38,8 +39,10 @@ function UsuarioPrincipal(){
                     {probability>=50? <p className='resultado-negativo'>Alto riesgo de diabetes</p> : <p className='resultado-positivo'>Bajo riesgo de diabetes</p>}
                 </div>
 
-              
-
+                <div className='contenedor-grafica-barra'>
+                    <Barra glucosa={200} insulina={30} bmi={28} />
+                </div>
+                
             </div>
             
 

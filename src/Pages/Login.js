@@ -1,10 +1,46 @@
 import Logo from '../Logo.jpeg';
 import '../css/login.css';
+import { useState } from 'react';
+import axios from 'axios';
 import { AiFillMail, AiFillLock } from "react-icons/ai";
-function onSubmit(event) {
-  event.preventDefault();
-}
+import { useNavigate } from 'react-router-dom';
+
+
 function Login() {
+  const navigate = useNavigate();
+  const [correo,setCorreo]= useState('');
+  const [contraseña,setContraseña]= useState('');
+ 
+
+  function handleCorreo(e){
+   setCorreo(e.target.value);
+  
+  }
+
+  function handleContraseña(e){
+   setContraseña(e.target.value);
+   
+  }
+
+  async function onSubmit(event) {
+  event.preventDefault();
+
+    try{
+     const  res= await axios.post('http://localhost:3001/api/auth/login', {
+  usuario: correo,
+  contrasena: contraseña
+});
+      console.log("respuesta del backend", res.data.message);
+      if(res.data.message === "Inicio de sesión exitoso"){
+        navigate("/dashboard");
+      } else {
+        alert("Credenciales incorrectas")
+      }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
 return( 
   <div className='Contenedor-principal-login'>
     <div className='Contenedor-login'>
@@ -14,10 +50,10 @@ return(
         <div className='titulo'><h1>AI Prediccion de diabetes</h1></div>
         <div className='formulario'>
             <form onSubmit={onSubmit}>
-                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese su correo' /></div>
+                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese su correo' value={correo} onChange={handleCorreo} /></div>
               
 
-               <div className='input-contraseña'><AiFillLock />  <input type="password" placeholder='Ingrese su contraseña' /></div> 
+               <div className='input-contraseña'><AiFillLock />  <input type="password" placeholder='Ingrese su contraseña' value={contraseña} onChange={handleContraseña} /></div> 
                 <div className='boton'> <input type="submit" value="Iniciar sesión" /></div>
                
             </form>

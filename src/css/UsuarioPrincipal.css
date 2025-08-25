@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #8fc2e4;  
+    background-color: #b4d8f0;  
 
 }
 .Pantalla-principal{
@@ -64,6 +64,16 @@ position: absolute;
     height: 200px;
     z-index: 2;
 }
+.contenedor-grafica-barra{
+    position: absolute;
+    bottom: 20px;
+    top: 40%;
+    left: 70%;
+    right: 20px;
+    width: 250px;
+    height: 300px;
+    z-index: 2;
+}
 
 h1{
     color: #084b75;
@@ -73,21 +83,21 @@ h1{
 }
 h2{
     color: #084b75;
-    font-size: 20px;
+    font-size: 17px;
     margin-bottom: 15px;
     text-align: center;
 }
 
 .resultado-positivo{
     text-align: center;
-    margin-top: 1rem;
-    font-size: 20px;
+   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
     color: green;
     
 }
 .resultado-negativo{
     text-align: center;
-    margin-top: 1rem;
-    font-size: 20px;
+   
+    font-size: 15px;
     color: red;
 }
