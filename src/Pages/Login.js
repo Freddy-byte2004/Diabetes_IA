@@ -30,8 +30,10 @@ function Login() {
   usuario: correo,
   contrasena: contraseña
 });
+
       console.log("respuesta del backend", res.data.message);
       if(res.data.message === "Inicio de sesión exitoso"){
+        localStorage.setItem('correo_usuario', correo);
         navigate("/dashboard");
       } else {
         alert("Credenciales incorrectas")

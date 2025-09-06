@@ -10,8 +10,8 @@ const COLORS = ['#c92121ff','#1ac954ff' ];
 
 export  function ProbabilityDonut({ probability }) {
   const data = [
-    { name: 'Probabilidad de Diabetes', value: probability },
-    { name: 'Sin Diabetes', value: 100 - probability },
+    { name: 'Probabilidad de Diabetes', value: probability*100 },
+    { name: 'Sin Diabetes', value: 100 - probability*100 },
   ];
 
   return (
@@ -45,7 +45,7 @@ export  function ProbabilityDonut({ probability }) {
           fontWeight: 'bold',
         }}
       >
-        {probability}%
+        {(probability*100).toFixed(2)}%
       </div>
     </div>
   );

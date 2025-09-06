@@ -3,8 +3,8 @@
 
  function Barra({glucosa, insulina, bmi}){
     const data = [
-  { name: 'Glucosa', Usuario: glucosa, Promedio: 100 },
-  { name: 'Insulina', Usuario: insulina, Promedio: 75 },
+  { name: 'Glucosa', Usuario: glucosa, Promedio: 80 },
+  { name: 'Insulina', Usuario: insulina, Promedio: 35 },
   { name: 'BMI', Usuario: bmi, Promedio: 25 },
 ];
     return(
