@@ -64,7 +64,7 @@ function UsuarioPrincipal(){
                 console.log("id usuario", id_usuario);
 
                 const res = await axios.get(`http://localhost:3001/api/analisisProbabilidad/${id_usuario}`);
-                // Supón que el backend retorna un array de análisis, tomas el último
+                
                 if (res.data) {
                     const Probabilidad = res.data.Probabilidad_diabetes;
                    console.log("probabilidad obtenida", Probabilidad);
@@ -128,12 +128,12 @@ function UsuarioPrincipal(){
                     
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
-                            <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} />
-                            <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} />
-                            <input type="number" placeholder="Presion arterial" value={presion_arterial} onChange={handlePresionArterialChange} />
-                            <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} />
-                            <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} />
-                            <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} />
+                            <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
+                            <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field' />
+                            <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field' />
+                            <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field' />
+                            <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} className='input-field' />
+                            <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} className='input-field' />
                             <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} />
                             <input type="number" placeholder="Edad" value={edad} onChange={handleEdadChange} />
                             <input type="submit" value="Enviar" className="boton-enviar"/>

@@ -37,18 +37,22 @@
     justify-content: center;
     padding: 100px;
 }
+input[type="number"]{
+    margin:5px 0px;
+}
 
 .boton-enviar{
-    background-color: #8fc2e4 ; 
+    background-color: #5988ce ; 
     border: none;
     color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 15px 2px;
     cursor: pointer;
     border-radius: 12px;
+    width: 80%;
      transition: background 0.2s;
 }
 .boton-enviar:hover{

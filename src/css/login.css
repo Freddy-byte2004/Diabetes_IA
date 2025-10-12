@@ -42,8 +42,8 @@ input[type="password"]  {
   border-radius: 5px;
   border: solid 1px #dde2e9;
 }
-input[type="submit" ]{
-    border: none;
+.boton{
+   border: none;
   outline: none;
   color:#001113;
   box-shadow: none;
@@ -53,8 +53,17 @@ input[type="submit" ]{
   padding: 8px 0;
   color: white;
   background-color: #5988ce;
+   border-radius: 5px;
+   height: 55px;
+    margin-top: 10px;
 }
 
+.boton:hover{
+    background-color:#092b5e; ;
+    cursor: pointer;
+ }
+
+ .titulo
 h1{
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 24px;
@@ -66,21 +75,12 @@ h1{
 
 
  }
- .input-contraseña{
+ .input-contraseña,.input-contraseña-confirmar{
     padding:10px;
  }
- .boton{
-    background-color: #5988ce;
-   
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
- }
+
  .boton:hover{
-    
+    background-color:#092b5e; ;
     cursor: pointer;
  }
 

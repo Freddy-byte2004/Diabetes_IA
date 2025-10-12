@@ -1,6 +1,6 @@
 .navbar{
     background-color: #d3e8f7;
-    height: 87vh;
+    height: 85vh;
     width: 16vw;
     position: absolute;
     top: 0;
@@ -19,7 +19,7 @@
 }
 .logo-navbar{
     width: 34vh;
-    height: 100px;
+    height: 150px;
     border-radius: 20px;
    
 }
@@ -37,7 +37,7 @@
     display: flex;
     align-items: start;
     justify-content: start;
-    font-size: 17px;
+    font-size: 12px;
     color: #01121d;
     text-decoration: none;
     margin:  5px;

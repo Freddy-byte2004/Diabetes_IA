@@ -6,10 +6,11 @@ import { AiFillMail, AiFillLock } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 
 
-function Login() {
+function RegistroUsuario() {
   const navigate = useNavigate();
   const [correo,setCorreo]= useState('');
   const [contraseña,setContraseña]= useState('');
+  const [confirmarContraseña,setConfirmarContraseña]= useState('');
  
 
   function handleCorreo(e){
@@ -21,20 +22,29 @@ function Login() {
    setContraseña(e.target.value);
    
   }
+  
+  function handleConfirmarContraseña(e){
+    setConfirmarContraseña(e.target.value);
+  }
 
   async function onSubmit(event) {
   event.preventDefault();
 
+  if(contraseña !== confirmarContraseña){
+    alert("Las contraseñas no coinciden");
+    return;
+  }
+
     try{
-     const  res= await axios.post('http://localhost:3001/api/auth/login', {
+     const  res= await axios.post('http://localhost:3001/api/auth/register', {
   usuario: correo,
   contrasena: contraseña
 });
-// perfil de una persona con alta probabildiad de padecer diabetes: 
+
       console.log("respuesta del backend", res.data.message);
-      if(res.data.message === "Inicio de sesión exitoso"){
-        localStorage.setItem('correo_usuario', correo);
-        navigate("/dashboard");
+      if(res.data.message === "Usuario registrado exitosamente"){
+        alert("Usuario registrado exitosamente");
+        navigate('/');
       } else {
         alert("Credenciales incorrectas")
       }
@@ -49,25 +59,26 @@ return(
         <div className='logo'>
             <img src={Logo} alt="Logo de la aplicación" />  
         </div>
-        <div className='titulo'><h1>AI Prediccion de diabetes</h1></div>
+        <div className='titulo'><h1>Registro de usuario</h1></div>
         <div className='formulario'>
             <form onSubmit={onSubmit}>
                 <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese su correo' value={correo} onChange={handleCorreo} /></div>
               
 
                <div className='input-contraseña'><AiFillLock />  <input type="password" placeholder='Ingrese su contraseña' value={contraseña} onChange={handleContraseña} /></div> 
-                <input type="submit" value="Iniciar sesión" className='boton' />
+               <div className='input-contraseña-confirmar'><AiFillLock />  <input type="password" placeholder='Confirme su contraseña' value={confirmarContraseña} onChange={handleConfirmarContraseña} /></div> 
+                 <input type="submit" value="Registrar" className='boton'/>
                
             </form>
             
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><a href='#'>¿Has olvidado la contraseña?</a></div>  
-            <div className='registro'><a href='http://localhost:3000/registro'>Regístrate</a></div>
+          <div className='Olvido-contrasena'><a href='http://localhost:3000/'>¿Ya tienes una cuenta? Ingresa ahora mismo</a></div>  
+            
         </div>
     </div>
   </div>
 );
 }
 
-export default Login;
+export default RegistroUsuario;
