@@ -26,7 +26,7 @@ function Login() {
   event.preventDefault();
 
     try{
-     const  res= await axios.post('http://localhost:3001/api/auth/login', {
+     const  res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/login', {
   usuario: correo,
   contrasena: contraseña
 });

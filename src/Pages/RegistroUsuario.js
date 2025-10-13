@@ -36,7 +36,7 @@ function RegistroUsuario() {
   }
 
     try{
-     const  res= await axios.post('http://localhost:3001/api/auth/register', {
+     const  res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/register', {
   usuario: correo,
   contrasena: contraseña
 });
