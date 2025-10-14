@@ -68,7 +68,7 @@ function UsuarioPrincipal(){
 
                 if (res.data) {
                     const Probabilidad = res.data.Probabilidad_diabetes;
-                   console.log("probabilidad obtenida", res.data);
+                   console.log("probabilidad obtenida", res.data.probabilidad_diabetes);
                    setProbability(Probabilidad);
                 }
                 else{
