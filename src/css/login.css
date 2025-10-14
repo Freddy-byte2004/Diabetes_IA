@@ -9,7 +9,21 @@
 
 
  }
- .Contenedor-login, .Contenedor-registro{
+ .Contenedor-login{
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 15px 20px #6399e9;
+    width: 70vh ;
+    height: 70vh;   
+
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+        
+ }
+ .Contenedor-registro{
     background-color: white;
     border-radius: 20px;
     padding: 20px;
