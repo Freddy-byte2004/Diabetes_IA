@@ -133,7 +133,7 @@ function UsuarioPrincipal(){
                     
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
-                            <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
+                            <input type="number" placeholder="MMGVO" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
                             <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field' />
                             <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field' />
                             <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field' />
