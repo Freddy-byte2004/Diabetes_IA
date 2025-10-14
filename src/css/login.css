@@ -15,7 +15,7 @@
     padding: 20px;
     box-shadow: 0 15px 20px #6399e9;
     width: 70vh ;
-    height: 70vh;   
+    height: 100vh;   
 
     display: flex;
     flex-direction: column; 
@@ -30,7 +30,8 @@
     padding: 0px;
  }
  input[type="email"],
-input[type="password"]  {
+input[type="password"],
+input[type="text"]  {
   border: none;
   outline: none;
   background: transparent;
