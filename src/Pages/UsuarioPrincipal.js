@@ -6,6 +6,7 @@ import { Barra } from '../Componentes/barra.js';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+
 import '../css/input.css'
 function UsuarioPrincipal(){
    const [probability, setProbability] = useState(0);

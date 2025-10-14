@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { AiFillMail, AiFillLock } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 function RegistroUsuario() {
@@ -73,7 +74,7 @@ return(
             
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><a href='https://diabetes-ia-1.onrender.com/'>¿Ya tienes una cuenta? Ingresa ahora mismo</a></div>  
+          <div className='Olvido-contrasena'><Link to='https://diabetes-ia-1.onrender.com/'>¿Ya tienes una cuenta? Ingresa ahora mismo</Link></div>  
             
         </div>
     </div>

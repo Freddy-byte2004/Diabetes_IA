@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/Navbar.css';
 import Logo from '../Logo.jpeg';
+import { Link } from 'react-router-dom';
 import { AiFillHome, AiFillPlusSquare, AiFillClockCircle, AiFillProfile, AiFillCloseCircle } from "react-icons/ai";
 function Navbar() {
     return(
@@ -10,9 +11,9 @@ function Navbar() {
             </div>
             <div className="navbar-content">
               <div className="Inicio"><a href='#'> <div className="icono-navbar"><AiFillHome /></div><div className="texto-navbar">Inicio</div></a></div>
-              <div className="Historial"><a href='#'><div className="icono-navbar"><AiFillClockCircle/></div><div className="texto-navbar">Historial</div></a></div>
-              <div className="Perfil"><a href='#'><div className="icono-navbar"><AiFillProfile/></div><div className="texto-navbar">Perfil</div></a></div>
-              <div className="CerrarSesion"><a href='https://diabetes-ia-1.onrender.com/'><div className="icono-navbar"><AiFillCloseCircle/></div><div className="texto-navbar">Cerrar Sesión</div></a></div>
+              <div className="Historial"><Link to='#'><div className="icono-navbar"><AiFillClockCircle/></div><div className="texto-navbar">Historial</div></Link></div>
+              <div className="Perfil"><Link to='#'><div className="icono-navbar"><AiFillProfile/></div><div className="texto-navbar">Perfil</div></Link></div>
+              <div className="CerrarSesion"><Link to='https://diabetes-ia-1.onrender.com/'><div className="icono-navbar"><AiFillCloseCircle/></div><div className="texto-navbar">Cerrar Sesión</div></Link></div>
             </div>
         </nav>
     )
