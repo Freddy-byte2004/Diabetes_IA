@@ -63,7 +63,7 @@ return(
         </div>
         <div className='pie'>
           <div className='Olvido-contrasena'><a href='#'>¿Has olvidado la contraseña?</a></div>  
-            <div className='registro'><a href='http://localhost:3000/registro'>Regístrate</a></div>
+            <div className='registro'><a href='https://diabetes-ia-1.onrender.com/registro'>Regístrate</a></div>
         </div>
     </div>
   </div>

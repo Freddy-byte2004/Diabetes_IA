@@ -73,7 +73,7 @@ return(
             
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><a href='http://localhost:3000/'>¿Ya tienes una cuenta? Ingresa ahora mismo</a></div>  
+          <div className='Olvido-contrasena'><a href='https://diabetes-ia-1.onrender.com/'>¿Ya tienes una cuenta? Ingresa ahora mismo</a></div>  
             
         </div>
     </div>
