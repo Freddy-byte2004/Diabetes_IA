@@ -109,7 +109,7 @@ function UsuarioPrincipal(){
         if (nuevaProbabilidad.data) {
             const Probabilidad = nuevaProbabilidad.data.Probabilidad_diabetes;
             setProbability(Probabilidad);
-            console.log("nueva probabilidad", nuevaProbabilidad.data.Probabilidad_diabetes);
+            console.log("nueva probabilidad", nuevaProbabilidad.data);
         }
               console.log("respuesta del backend", res.data);
               
