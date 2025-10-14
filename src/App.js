@@ -7,8 +7,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/dashboard" element={<UsuarioPrincipal />} />
-      <Route path="/registro" element={<RegistroUsuario />} />
+      <Route path="https://diabetes-ia-1.onrender.com/dashboard" element={<UsuarioPrincipal />} />
+      <Route path="https://diabetes-ia-1.onrender.com/registro" element={<RegistroUsuario />} />
     </Routes>
   );
 }
