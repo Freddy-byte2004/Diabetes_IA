@@ -60,12 +60,12 @@ function UsuarioPrincipal(){
         async function obtenerProbability() {
             const correo = localStorage.getItem('correo_usuario');
             try {
-                const id_usuario_axios = await axios.get(`http://localhost:3001/api/usuario/${correo}`);
+                const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${correo}`);
                 const id_usuario= id_usuario_axios.data.id_usuario
                 console.log("id usuario", id_usuario);
 
-                const res = await axios.get(`http://localhost:3001/api/analisisProbabilidad/${id_usuario}`);
-                
+                const res = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_usuario}`);
+
                 if (res.data) {
                     const Probabilidad = res.data.Probabilidad_diabetes;
                    console.log("probabilidad obtenida", Probabilidad);
@@ -85,7 +85,7 @@ function UsuarioPrincipal(){
         const correo= localStorage.getItem('correo_usuario');
         console.log("correo_usuario", correo);
         try{
-                const id_usuario_axios= await axios.get(`http://localhost:3001/api/usuario/${correo}`)
+                const id_usuario_axios= await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${correo}`)
                 console.log("id usuario", id_usuario_axios.data.id_usuario);
                  ID_usuario= id_usuario_axios.data.id_usuario;
                 setId_usuario(id_usuario_axios.data.id_usuario);
@@ -93,7 +93,7 @@ function UsuarioPrincipal(){
             console.log(err);
         }
         try{
-           const res= await axios.post('http://localhost:3001/api/analisis',{
+           const res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/analisis',{
             id_usuario: ID_usuario,
             glucosa: Number(indice_glucosa),
             insulina: Number(nivel_insulina),
@@ -105,7 +105,7 @@ function UsuarioPrincipal(){
             edad: Number(edad),
             fecha_de_analisis: Fecha_de_analisis
            })
-           const nuevaProbabilidad = await axios.get(`http://localhost:3001/api/analisisProbabilidad/${Id_usuario}`);
+           const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${Id_usuario}`);
         if (nuevaProbabilidad.data) {
             const Probabilidad = nuevaProbabilidad.data.Probabilidad_diabetes;
             setProbability(Probabilidad);

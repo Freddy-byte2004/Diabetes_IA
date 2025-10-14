@@ -11,6 +11,8 @@ function RegistroUsuario() {
   const navigate = useNavigate();
   const [correo,setCorreo]= useState('');
   const [contraseña,setContraseña]= useState('');
+  const [nombre,setNombre]= useState('');
+  const [apellido,setApellido]= useState(''); 
   const [confirmarContraseña,setConfirmarContraseña]= useState('');
  
 
@@ -22,6 +24,14 @@ function RegistroUsuario() {
   function handleContraseña(e){
    setContraseña(e.target.value);
    
+  }
+  function handleNombre(e){
+   setNombre(e.target.value);
+  
+  }
+  function handleApellido(e){
+   setApellido(e.target.value);
+
   }
   
   function handleConfirmarContraseña(e){
@@ -39,7 +49,9 @@ function RegistroUsuario() {
     try{
      const  res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/register', {
   usuario: correo,
-  contrasena: contraseña
+  contrasena: contraseña,
+  nombre: nombre,
+  apellido: apellido
 });
 
       console.log("respuesta del backend", res.data.message);
@@ -68,6 +80,8 @@ return(
 
                <div className='input-contraseña'><AiFillLock />  <input type="password" placeholder='Ingrese su contraseña' value={contraseña} onChange={handleContraseña} /></div> 
                <div className='input-contraseña-confirmar'><AiFillLock />  <input type="password" placeholder='Confirme su contraseña' value={confirmarContraseña} onChange={handleConfirmarContraseña} /></div> 
+               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese su nombre' value={nombre} onChange={handleNombre} /></div>
+               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese su apellido' value={apellido} onChange={handleApellido} /></div>
                  <input type="submit" value="Registrar" className='boton'/>
                
             </form>
