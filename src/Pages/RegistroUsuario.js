@@ -68,7 +68,7 @@ function RegistroUsuario() {
 
 return( 
   <div className='Contenedor-principal-login'>
-    <div className='Contenedor-login'>
+    <div className='Contenedor-registro'>
         <div className='logo'>
             <img src={Logo} alt="Logo de la aplicación" />  
         </div>
