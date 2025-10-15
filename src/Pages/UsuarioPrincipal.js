@@ -108,7 +108,7 @@ function UsuarioPrincipal(){
            })
            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
         if (nuevaProbabilidad.data) {
-            const Probabilidad = nuevaProbabilidad.data.Probabilidad_diabetes;
+            const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
             setProbability(Probabilidad);
             console.log("nueva probabilidad", nuevaProbabilidad.data);
         }
