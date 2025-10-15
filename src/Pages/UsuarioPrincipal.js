@@ -69,6 +69,7 @@ function UsuarioPrincipal(){
                 if (res.data) {
                     const Probabilidad = res.data.Probabilidad_diabetes;
                    console.log("probabilidad obtenida", res.data.probabilidad_diabetes);
+                   console.log("probabilidad variable", Probabilidad);
                    setProbability(Probabilidad);
                 }
                 else{
@@ -105,7 +106,7 @@ function UsuarioPrincipal(){
             edad: Number(edad),
             fecha_de_analisis: Fecha_de_analisis
            })
-           const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/7`);
+           const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
         if (nuevaProbabilidad.data) {
             const Probabilidad = nuevaProbabilidad.data.Probabilidad_diabetes;
             setProbability(Probabilidad);
@@ -113,7 +114,7 @@ function UsuarioPrincipal(){
         }
               console.log("respuesta del backend", res.data);
               console.log("nuevaProbabilidad", nuevaProbabilidad.data);
-              console.log("Id_usuario", Id_usuario);
+              console.log("Id_usuario", ID_usuario);
               
               
              
@@ -133,7 +134,7 @@ function UsuarioPrincipal(){
                     
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
-                            <input type="number" placeholder="MMGVO" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
+                            <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
                             <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field' />
                             <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field' />
                             <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field' />
