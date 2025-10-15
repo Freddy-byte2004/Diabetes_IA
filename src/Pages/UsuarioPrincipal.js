@@ -70,7 +70,7 @@ function UsuarioPrincipal(){
                     const Probabilidad = res.data.probabilidad_diabetes;
                    console.log("probabilidad obtenida", res.data.probabilidad_diabetes);
                    console.log("probabilidad variable", Probabilidad);
-                   setProbability(Probabilidad);
+                   setProbability(Probabilidad*100);
                 }
                 else{
 
