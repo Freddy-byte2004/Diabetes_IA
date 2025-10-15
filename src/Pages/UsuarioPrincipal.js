@@ -21,6 +21,7 @@ function UsuarioPrincipal(){
     const [indice_masa_corporal, setIndice_masa_corporal] = useState();
     const [herencia_diabetica, setHerencia_diabetica] = useState();
     const [edad, setEdad] = useState();
+    const {probabilidad_mensaje, setProbabilidad_mensaje} = useState(0);
     const [Id_usuario, setId_usuario] = useState();
 
     function handleN_embarazosChange(event) {
@@ -70,7 +71,8 @@ function UsuarioPrincipal(){
                     const Probabilidad = res.data.probabilidad_diabetes;
                    console.log("probabilidad obtenida", res.data.probabilidad_diabetes);
                    console.log("probabilidad variable", Probabilidad);
-                   setProbability(Probabilidad*100);
+                   setProbability(Probabilidad);
+                   setProbabilidad_mensaje(Probabilidad*100);
                 }
                 else{
 
@@ -109,7 +111,8 @@ function UsuarioPrincipal(){
            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
         if (nuevaProbabilidad.data) {
             const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
-            setProbability(Probabilidad*100);
+            setProbability(Probabilidad);
+            setProbabilidad_mensaje(Probabilidad*100);
             console.log("nueva probabilidad", nuevaProbabilidad.data);
         }
               console.log("respuesta del backend", res.data);
@@ -149,7 +152,7 @@ function UsuarioPrincipal(){
                 <div className='contenedor-grafica'> 
                     <h2>Resultado</h2>
                     <ProbabilityDonut probability={probability} />
-                    {probability>=50? <p className='resultado-negativo'>Alto riesgo de diabetes</p> : <p className='resultado-positivo'>Bajo riesgo de diabetes</p>}
+                    {probabilidad_mensaje>=50? <p className='resultado-negativo'>Alto riesgo de diabetes</p> : <p className='resultado-positivo'>Bajo riesgo de diabetes</p>}
                 </div>
 
                 <div className='contenedor-grafica-barra'>
