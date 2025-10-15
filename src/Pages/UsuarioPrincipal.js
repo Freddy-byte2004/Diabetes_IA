@@ -73,6 +73,7 @@ function UsuarioPrincipal(){
                    console.log("probabilidad variable", Probabilidad);
                    setProbability(Probabilidad);
                    setProbabilidad_mensaje(Probabilidad*100);
+                   console.log("probabilidad mensaje", probabilidad_mensaje);
                 }
                 else{
 
@@ -118,7 +119,7 @@ function UsuarioPrincipal(){
               console.log("respuesta del backend", res.data);
               console.log("nuevaProbabilidad", nuevaProbabilidad.data);
               console.log("Id_usuario", ID_usuario);
-              
+              console.log("probabilidad_mensaje", probabilidad_mensaje);
               
              
         }catch(err){
