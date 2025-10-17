@@ -32,9 +32,11 @@ function Login() {
   contrasena: contraseña
 });
 // perfil de una persona con alta probabildiad de padecer diabetes: 
-      console.log("respuesta del backend", res.data.message);
+      console.log("respuesta del backend", res.data.token);
+    
       if(res.data.message === "Inicio de sesión exitoso"){
         localStorage.setItem('correo_usuario', correo);
+        localStorage.setItem('token', res.data.token);
         navigate("/dashboard");
       } else {
         alert("Credenciales incorrectas")
