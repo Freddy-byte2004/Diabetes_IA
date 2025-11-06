@@ -21,7 +21,7 @@ const correo= localStorage.getItem("correo_usuario");
     axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
       .then((res) => {
         setIdUsuario(res.data.id_usuario);
-        console.log('ID del usuario:', idUsuario);
+        console.log('ID del usuario:', res.data.id_usuario);
       })
       .catch((err) => {
         console.error('Error al obtener el ID:', err);
