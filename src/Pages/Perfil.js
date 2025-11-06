@@ -15,7 +15,7 @@ const data=[{
 function Perfil(){
 const [idUsuario, setIdUsuario] = useState(null);
 
-const correo= localStorage.getItem("correo");
+const correo= localStorage.getItem("correo_usuario");
 
   useEffect(() => {
     axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
