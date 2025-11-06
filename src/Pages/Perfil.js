@@ -20,8 +20,12 @@ const correo= localStorage.getItem("correo_usuario");
 useEffect(()=>{
 
     axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
+    
     .then((res)=>{
-        const usuarioData= res.data;
+        axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${res.data.id_usuario}`)
+
+        .then((res)=>{
+            const usuarioData= res.data;
         const formattedData= [{
             nombre: usuarioData.nombre,
             apellido: usuarioData.apellido,
@@ -30,6 +34,10 @@ useEffect(()=>{
         }];
         setDatos(formattedData);
         console.log('Datos del usuario:', formattedData);
+        }).catch((err)=>{
+            console.error('Error al obtener los datos del usuario:', err);
+        });
+        
     })
     .catch((err)=>{
         console.error('Error al obtener los datos del usuario:', err);
