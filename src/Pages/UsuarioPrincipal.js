@@ -61,7 +61,7 @@ function UsuarioPrincipal(){
         async function obtenerProbability() {
             const correo = localStorage.getItem('correo_usuario');
             try {
-                const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${correo}`);
+                const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
                 const id_usuario= id_usuario_axios.data.id_usuario
                 console.log("id usuario", id_usuario);
 
@@ -89,7 +89,7 @@ function UsuarioPrincipal(){
         const correo= localStorage.getItem('correo_usuario');
         console.log("correo_usuario", correo);
         try{
-                const id_usuario_axios= await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${correo}`)
+                const id_usuario_axios= await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
                 console.log("id usuario", id_usuario_axios.data.id_usuario);
                  ID_usuario= id_usuario_axios.data.id_usuario;
                 setId_usuario(id_usuario_axios.data.id_usuario);

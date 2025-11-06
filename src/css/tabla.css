@@ -1,0 +1,64 @@
+.contenedor-principal-tabla {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 64, 128, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #d3e8f7;
+  color: #01121d;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.3s ease;
+}
+
+th {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+td {
+  font-size: 15px;
+  color: #333;
+}
+.editar-usuario {
+  background-color: #30759c; 
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Opcional: bordes redondeados en las esquinas superiores */
+table thead tr:first-child th:first-child {
+  border-top-left-radius: 12px;
+}
+table thead tr:first-child th:last-child {
+  border-top-right-radius: 12px;
+}
