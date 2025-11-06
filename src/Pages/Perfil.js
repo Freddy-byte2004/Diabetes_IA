@@ -1,5 +1,5 @@
 
-import Tabla from "../Componentes/tabla"
+import Tabla from "../Componentes/puta"
 const data={
     nombre: "Juan",
     apellido: "Pérez",
