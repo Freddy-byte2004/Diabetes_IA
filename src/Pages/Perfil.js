@@ -13,20 +13,31 @@ const data=[{
     telefono: "555-1234"
 },]
 function Perfil(){
-const [idUsuario, setIdUsuario] = useState(null);
+const [datos, setDatos]= useState([]);
 
 const correo= localStorage.getItem("correo_usuario");
 
-  useEffect(() => {
+useEffect(()=>{
+
     axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
-      .then((res) => {
-        setIdUsuario(res.data.id_usuario);
-        console.log('ID del usuario:', res.data.id_usuario);
-      })
-      .catch((err) => {
-        console.error('Error al obtener el ID:', err);
-      });
-  }, []); 
+    .then((res)=>{
+        const usuarioData= res.data;
+        const formattedData= [{
+            nombre: usuarioData.nombre,
+            apellido: usuarioData.apellido,
+            direccion: usuarioData.direccion,
+            telefono: usuarioData.telefono
+        }];
+        setDatos(formattedData);
+        console.log('Datos del usuario:', formattedData);
+    })
+    .catch((err)=>{
+        console.error('Error al obtener los datos del usuario:', err);
+    })
+
+
+
+},[])
     return(
         <div className="contenedor-principal">
         <div className="contenedor-principal-perfil">
