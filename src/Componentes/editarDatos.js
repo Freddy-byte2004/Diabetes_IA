@@ -1,4 +1,4 @@
-// editarDatos.jsx
+
 import React, { useState } from "react";
 import "../css/editarDatos.css";
 import axios from "axios";
@@ -13,6 +13,9 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
   const handleSubmit = (e) => {
     e.preventDefault();
    axios.put(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${usuario.id_usuario}`, {
+    nombre: formData.nombre,
+  apellido: formData.apellido,
+  
   cedula: formData.cedula,          
   telefono: formData.telefono,
   direccion: formData.direccion

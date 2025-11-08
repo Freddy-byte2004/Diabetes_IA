@@ -19,11 +19,11 @@ body{
     align-items: center;
     justify-content: center;
     background-color: #b4d8f0;
-    width: 100vw;
+    width: 150vw;
     height: 100vh;
 }
 .contenedor-principal-perfil{
-   width: 130vh;
+   width: 145vh;
    height: 90vh;
    margin-top: 40px;
    background-color: rgb(255, 255, 255);
@@ -45,6 +45,7 @@ body{
     justify-content: center;
     align-items: center;
     display: flex;
+    margin-right: 30px;
 }
 .contenedor-navbar{
     width: 50vh;
@@ -52,4 +53,8 @@ body{
     align-items: center;
     display: flex;
     margin-left: 20px;
+}
+
+.contenedor-titulo{
+    margin-right: 150px;;
 }

@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  margin-right: 130px;
 }
 
 table {
@@ -21,8 +22,8 @@ thead {
   color: #01121d;
 }
 
-th, td {
-  padding: 12px 16px;
+.nombre, .apellido, .cedula, .direccion, .telefono, .acciones {
+  padding: 16px 20px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -37,8 +38,8 @@ th {
   font-weight: bold;
 }
 
-td {
-  font-size: 15px;
+.nombre-fila, .apellido-fila, .cedula-fila, .direccion-fila, .telefono-fila, .acciones-fila {
+  font-size: 17px;
   color: #333;
 }
 .editar-usuario {

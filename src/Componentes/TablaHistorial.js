@@ -2,13 +2,13 @@
 import "../css/tablaHistorial.css";
 
 
-function TablaHistorial({ data, onDatosActualizados }) {
+function TablaHistorial({ data }) {
   
 
   return (
-    <div className="contenedor-principal-tabla">
-      <div className="contenedor-tabla">
-        <table border="1" style={{ borderCollapse: 'collapse', width: '100%' }}>
+    <div className="contenedor-principal-tabla-historial">
+      <div className="contenedor-tabla-historial">
+        <table className="tabla-historia" border="1" style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>
               

@@ -23,9 +23,10 @@ body{
     height: 100vh;
 }
 .contenedor-principal-historial{
-   width: 150vh;
+   width: 147vh;
    height: 90vh;
    margin-top: 40px;
+   
    background-color: rgb(255, 255, 255);
    justify-content: center;
    align-items: center;
@@ -40,12 +41,16 @@ body{
     justify-content: center;
     align-items: center;
 }
-.contenedor-tabla{
+.contenedor-tabla-historial{
     width: 100vh;
     justify-content: center;
     align-items: center;
     display: flex;
+    margin-right: 90px;
     
+}
+.tabla-historia{
+    margin-right: 95px;
 }
 .contenedor-navbar{
      width: 50vh;

@@ -15,7 +15,7 @@ function Tabla({ data, onDatosActualizados }) {
 
   const handleGuardar = (datosActualizados) => {
     console.log("Datos actualizados:", datosActualizados);
-    // Aquí puedes hacer el PUT al backend si lo deseas
+    
   };
 
   return (
@@ -25,23 +25,22 @@ function Tabla({ data, onDatosActualizados }) {
           <thead>
             <tr>
               
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Cedula</th>
-              <th>Direccion</th>
-              <th>Telefono</th>
-              <th>Acciones</th>
+              <th className="nombre">Nombre</th>
+              <th className="apellido">Apellido</th>
+              <th className="cedula">Cedula</th>
+              <th className="direccion">Direccion</th>
+              <th className="telefono">Telefono</th>
+              <th className="acciones">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {data.map((persona, index) => (
               <tr key={index}>
-                
-                <td>{persona.nombre}</td>
-                <td>{persona.apellido}</td>
-                <td>{persona.cedula}</td>
-                <td>{persona.direccion}</td>
-                <td>{persona.telefono}</td>
+                <td className="nombre-fila">{persona.nombre}</td>
+                <td className="apellido-fila">{persona.apellido}</td>
+                <td className="cedula-fila">{persona.cedula}</td>
+                <td className="direccion-fila">{persona.direccion}</td>
+                <td className="telefono-fila">{persona.telefono}</td>
                 <td>
                   <button className="editar-usuario" onClick={() => handleEditar(persona)}>Editar</button>
                 </td>

@@ -15,7 +15,7 @@ function App() {
       <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
       <Route path="/historial" element={<PrivateRoute><Historial /></PrivateRoute>} />
     </Routes>
-  );
+  );  
 }
 
 export default App;

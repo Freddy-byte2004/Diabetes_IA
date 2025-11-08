@@ -1,17 +1,17 @@
-.contenedor-principal-tabla {
+.contenedor-principal-tabla-historial {
   width: 100%;
   max-width: 900px; /* Ajusta según tu diseño */
   padding: 10px;
  
 }
 
-.contenedor-tabla {
+.contenedor-tabla-historial {
   width: 100%;
   margin-right: 80px;
   
 }
 
-table {
+.tabla-historia {
   
   width: 100%;
   max-width: 100%;
