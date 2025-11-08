@@ -13,7 +13,7 @@ function Navbar() {
                 <img src={Logo} alt="Logo" className="logo-navbar" />
             </div>
             <div className="navbar-content">
-              <div className="Inicio"><a href='/dashboard'> <div className="icono-navbar"><AiFillHome /></div><div className="texto-navbar">Inicio</div></a></div>
+              <div className="Inicio"><Link to='/dashboard'> <div className="icono-navbar"><AiFillHome /></div><div className="texto-navbar">Inicio</div></Link></div>
               <div className="Historial"><Link to='/historial'><div className="icono-navbar"><AiFillClockCircle/></div><div className="texto-navbar">Historial</div></Link></div>
               <div className="Perfil"><Link to='/perfil'><div className="icono-navbar"><AiFillProfile/></div><div className="texto-navbar">Perfil</div></Link></div>
               <div className="CerrarSesion" onClick={cerrarSesion}><Link to='https://diabetes-ia-1.onrender.com/'><div className="icono-navbar"><AiFillCloseCircle/></div><div className="texto-navbar">Cerrar Sesión</div></Link></div>
