@@ -1,0 +1,43 @@
+.contenedor-principal-tabla {
+  width: 100%;
+  max-width: 900px; /* Ajusta según tu diseño */
+  padding: 10px;
+ 
+}
+
+.contenedor-tabla {
+  width: 100%;
+  margin-right: 80px;
+  
+}
+
+table {
+  
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff1f1;
+  box-shadow: 0 2px 6px rgba(0, 64, 128, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 4px 8px; /* Reduce el espacio interno */
+  font-size: 11px;   /* Reduce el tamaño de texto */
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.editar-usuario {
+  padding: 6px 12px;
+  font-size: 13px;
+}

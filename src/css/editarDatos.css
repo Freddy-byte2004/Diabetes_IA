@@ -1,0 +1,20 @@
+.modal-edicion {
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  background-color: white;
+  padding: 20px;
+  border: 2px solid #333;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+.modal-edicion form {
+  display: flex;
+  flex-direction: column;
+}
+.modal-edicion label {
+  margin-bottom: 10px;
+}
+.modal-edicion button {
+  margin-top: 10px;
+}
