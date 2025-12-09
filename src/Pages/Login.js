@@ -5,12 +5,13 @@ import axios from 'axios';
 import { AiFillMail, AiFillLock } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';  
-
+import AlertMessage from '../Componentes/AlertMessage';
 
 function Login() {
   const navigate = useNavigate();
   const [correo,setCorreo]= useState('');
   const [contraseña,setContraseña]= useState('');
+  const [error, setError]= useState('');  
  
 
   function handleCorreo(e){
@@ -31,7 +32,7 @@ function Login() {
   usuario: correo,
   contrasena: contraseña
 });
-// perfil de una persona con alta probabildiad de padecer diabetes: 
+ 
       console.log("respuesta del backend", res.data.token);
     
       if(res.data.message === "Inicio de sesión exitoso"){
@@ -39,15 +40,22 @@ function Login() {
         localStorage.setItem('token', res.data.token);
         navigate("/dashboard");
       } else {
-        alert("Credenciales incorrectas")
+        console.log("Error de autenticación:", res.data.message);
+        setError(res.data.message?.trim() || 'Credenciales incorrectas');
       }
     }catch(err){
-      console.log(err);
+       if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response?.data?.message?.trim() || "Error al conectar con el servidor");
+        console.log("Error del servidor:", err.response.data.message);
+      } else {
+        setError("Error al conectar con el servidor");
+      }
     }
   }
 
 return( 
   <div className='Contenedor-principal-login'>
+    <AlertMessage message={error} type="error" onClose={() => setError('')} />
     <div className='Contenedor-login'>
         <div className='logo'>
             <img src={Logo} alt="Logo de la aplicación" />  
@@ -62,10 +70,10 @@ return(
                 <input type="submit" value="Iniciar sesión" className='boton' />
                
             </form>
-            
+           
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><a href='#'>¿Has olvidado la contraseña?</a></div>  
+          <div className='Olvido-contrasena'><Link to='/solicitar-codigo'>¿Has olvidado la contraseña?</Link></div>  
             <div className='registro'><Link to='/registro'>Regístrate</Link></div>
         </div>
     </div>

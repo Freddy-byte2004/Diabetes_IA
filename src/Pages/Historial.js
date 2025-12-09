@@ -52,18 +52,22 @@ useEffect(()=>{
 
 },[])
     return(
-        <div className="contenedor-principal">
-        <div className="contenedor-principal-historial">
-            <div className="contenedor-navbar"> <><Navbar/></></div>
-            <div className="pantalla-principal">
-                
-                <div className="contenedor-tabla"><TablaHistorial data={datos} /> </div>
-            
-            </div>
-            
-            
+         <div className="contenedor-principal">
+    <div className="contenedor-principal-historial">
+      <div className="contenedor-navbar">
+        <Navbar />
+      </div>
+      <div className="pantalla-principal">
+        <div className="contenedor-tabla">
+          {datos.length > 0 ? (
+            <TablaHistorial data={datos} />
+          ) : (
+            <p className="mensaje-vacio">No hay consultas realizadas por parte del usuario</p>
+          )}
         </div>
-        </div>
+      </div>
+    </div>
+  </div>
     )
 
 

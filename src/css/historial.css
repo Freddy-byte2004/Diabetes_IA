@@ -35,6 +35,14 @@ body{
    border-radius: 30px;
    box-shadow: rgb(4, 95, 95) 0px 0px 10px 0px;
 }
+.mensaje-vacio {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
 .pantalla-principal{
     display: flex;
     flex-direction: column;
@@ -47,6 +55,7 @@ body{
     align-items: center;
     display: flex;
     margin-right: 90px;
+    animation: aparecerSuave 0.8s ease forwards;
     
 }
 .tabla-historia{
@@ -61,4 +70,15 @@ body{
     padding: 20px;
     margin-right: 80px;   
    
+}
+
+@keyframes aparecerSuave {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* empieza un poco abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* vuelve a su lugar */
+  }
 }

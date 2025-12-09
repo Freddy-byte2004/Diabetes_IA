@@ -3,15 +3,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #b4d8f0;  
+    height: 110vh;
+    width: 100vw;
+    background-color:   #b4d8f0;  
 
 }
 .Pantalla-principal{
 
     background-color: #f0f4f5;
     width: 100vh;
-    height: 70vh;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +21,15 @@
     padding: 50px 100px;
     box-shadow: rgb(16, 59, 87) 0px 0px 20px 0px;
     position: relative;
+    animation: aparecerSuave 0.8s ease forwards;
 
+}
+.navbar-container-dashboard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
 }
 .contendor-formulario{
     padding: 5px;
@@ -35,7 +44,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 100px;
+    padding: 20px;
+    position: relative;
+    z-index: 4;
+    /* border: 2px solid red;  // descomenta para depuración visual */
 }
 input[type="number"]{
     margin:5px 0px;
@@ -104,4 +116,15 @@ h2{
    
     font-size: 15px;
     color: red;
+}
+
+@keyframes aparecerSuave {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* empieza un poco abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* vuelve a su lugar */
+  }
 }

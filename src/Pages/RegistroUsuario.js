@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AiFillMail, AiFillLock } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import AlertMessage from '../Componentes/AlertMessage';
 
 
 function RegistroUsuario() {
@@ -14,7 +15,7 @@ function RegistroUsuario() {
   const [nombre,setNombre]= useState('');
   const [apellido,setApellido]= useState(''); 
   const [confirmarContraseña,setConfirmarContraseña]= useState('');
- 
+  const [error, setError] = useState(''); 
 
   function handleCorreo(e){
    setCorreo(e.target.value);
@@ -40,9 +41,13 @@ function RegistroUsuario() {
 
   async function onSubmit(event) {
   event.preventDefault();
+   if (!correo || !contraseña || !confirmarContraseña || !nombre || !apellido) {
+    setError("Por favor, complete todos los campos");
+    return;
+  }
 
   if(contraseña !== confirmarContraseña){
-    alert("Las contraseñas no coinciden");
+    setError("Las contraseñas no coinciden");
     return;
   }
 
@@ -56,18 +61,23 @@ function RegistroUsuario() {
 
       console.log("respuesta del backend", res.data.message);
       if(res.data.message === "Usuario registrado exitosamente"){
-        alert("Usuario registrado exitosamente");
+       setError("Usuario registrado exitosamente");
+         setTimeout(() => {
         navigate('/');
+      }, 3000);
       } else {
-        alert("Credenciales incorrectas")
+        console.log("Error en el registro:", res.data.message);
+        setError(res.data.message?.trim() || 'Error en el registro');
       }
     }catch(err){
       console.log(err);
+      setError("Error al conectar con el servidor");
     }
   }
 
 return( 
   <div className='Contenedor-principal-login'>
+    <AlertMessage message={error} type={error === "Usuario registrado exitosamente" ? "success" : "error"} onClose={() => setError('')} />
     <div className='Contenedor-registro'>
         <div className='logo'>
             <img src={Logo} alt="Logo de la aplicación" />  
@@ -88,7 +98,7 @@ return(
             
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><Link to='https://diabetes-ia-1.onrender.com/'>¿Ya tienes una cuenta? Ingresa ahora mismo</Link></div>  
+          <div className='Olvido-contrasena'><Link to='/'>¿Ya tienes una cuenta? Ingresa ahora mismo</Link></div>  
             
         </div>
     </div>

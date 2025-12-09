@@ -6,7 +6,7 @@
     height: 100vh;
     width: 250vh;
     background-color: #dde2e9;
-
+animation: aparecerSuave 0.8s ease forwards;
 
 
  }
@@ -24,6 +24,15 @@
     justify-content: center;
         
  }
+ .mensaje-error {
+  color: rgb(226, 70, 70);
+  margin-top: 10px;
+  margin-left: 40px;
+  font-size: 15px;
+  font-weight: bold;
+   font-family: 'Montserrat', Arial, sans-serif;
+}
+
  .Contenedor-registro{
     background-color: white;
     border-radius: 20px;
@@ -79,7 +88,12 @@ input[type="text"]  {
     cursor: pointer;
  }
 
- .titulo
+ .contenedor-regresar-login{
+    margin-top: 20px;
+ }
+ .titulo{
+   margin-top: 10px;;
+ }
 h1{
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 24px;
@@ -125,4 +139,15 @@ a:hover {
 
 a:hover {
   color: #1976d2;
+}
+
+@keyframes aparecerSuave {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* empieza un poco abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* vuelve a su lugar */
+  }
 }

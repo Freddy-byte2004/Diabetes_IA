@@ -1,0 +1,55 @@
+.alert-message {
+  position: fixed;
+  top: -80px; /* empieza oculto arriba */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 0;
+}
+
+.alert-message.error {
+  background: #ff4d4f;
+  color: white;
+}
+.alert-message.success {
+  background: #4caf50; 
+  color: white;
+}
+
+
+.alert-message.success {
+  background: #4caf50;
+  color: white;
+}
+
+/* Animación de entrada */
+.alert-message.show {
+  animation: slideDown 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    top: -80px;
+    opacity: 0;
+  }
+  to {
+    top: 20px;
+    opacity: 1;
+  }
+}
+
+/* Animación de salida */
+@keyframes fadeOut {
+  from {
+    top: 20px;
+    opacity: 1;
+  }
+  to {
+    top: -80px;
+    opacity: 0;
+  }
+}

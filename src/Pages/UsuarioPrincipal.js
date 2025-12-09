@@ -6,6 +6,7 @@ import { Barra } from '../Componentes/barra.js';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import AlertMessage from '../Componentes/AlertMessage.js';
 
 import '../css/input.css'
 function UsuarioPrincipal(){
@@ -21,8 +22,9 @@ function UsuarioPrincipal(){
     const [indice_masa_corporal, setIndice_masa_corporal] = useState();
     const [herencia_diabetica, setHerencia_diabetica] = useState();
     const [edad, setEdad] = useState();
-    const {probabilidad_mensaje, setProbabilidad_mensaje} = useState(0);
+    const [probabilidad_mensaje, setProbabilidad_mensaje] = useState(0);
     const [Id_usuario, setId_usuario] = useState();
+    const [error, setError] = useState(''); 
 
     function handleN_embarazosChange(event) {
         setN_embarazos(event.target.value);
@@ -76,10 +78,12 @@ function UsuarioPrincipal(){
                    console.log("probabilidad mensaje", probabilidad_mensaje);
                 }
                 else{
-
+                    console.log("No hay datos de probabilidad para este usuario.");
+                    
                 }
             } catch (err) {
                 console.error(err);
+              
             }
         }
         obtenerProbability();
@@ -116,21 +120,30 @@ function UsuarioPrincipal(){
             setProbabilidad_mensaje(Probabilidad*100);
             console.log("nueva probabilidad", nuevaProbabilidad.data);
         }
+        else{
+            console.log("No se pudo realizar la consulta.");
+            setError("No se pudo realizar la consulta.");
+        }
               console.log("respuesta del backend", res.data);
               console.log("nuevaProbabilidad", nuevaProbabilidad.data);
               console.log("Id_usuario", ID_usuario);
               console.log("probabilidad_mensaje", probabilidad_mensaje);
-              
+       
+                console.log("No se pudo realizar la consulta.");
+                setError("No se pudo realizar la consulta.");
+          
              
         }catch(err){
             console.error(err);
+            setError("Error al conectar con el servidor");
         }
     }
     return(
 
         <div className='Contenedor-principal'>
+            <AlertMessage message={error} type="error" onClose={() => setError('')} />
             <div className='Pantalla-principal'>
-                <div className="navbar-container">
+                <div className="navbar-container-dashboard">
                 <Navbar />
                 </div>
                 
@@ -153,7 +166,11 @@ function UsuarioPrincipal(){
                 <div className='contenedor-grafica'> 
                     <h2>Resultado</h2>
                     <ProbabilityDonut probability={probability} />
-                    {probabilidad_mensaje>=50? <p className='resultado-negativo'>Alto riesgo de diabetes</p> : <p className='resultado-positivo'>Bajo riesgo de diabetes</p>}
+                    {probability * 100 >= 50 ? (
+                        <p className='resultado-negativo'>Alto riesgo de diabetes</p>
+                    ) : (
+                        <p className='resultado-positivo'>Bajo riesgo de diabetes</p>
+                    )}
                 </div>
 
                 <div className='contenedor-grafica-barra'>
