@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import '../css/alert.css';
 
-function AlertMessage({ message, type = "error", onClose }) {
+function AlertMessage({ message, type , onClose }) {
   useEffect(() => {
     if (message) {
         console.log("Mostrando mensaje de alerta:", message);

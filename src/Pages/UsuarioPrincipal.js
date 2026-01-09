@@ -24,8 +24,9 @@ function UsuarioPrincipal(){
     const [edad, setEdad] = useState();
     const [probabilidad_mensaje, setProbabilidad_mensaje] = useState(0);
     const [Id_usuario, setId_usuario] = useState();
-    const [error, setError] = useState(''); 
-
+    const [mensaje, setMensaje] = useState(''); 
+    
+    const [typeMessage,setTypeMessage]= useState('');
     function handleN_embarazosChange(event) {
         setN_embarazos(event.target.value);
        
@@ -118,11 +119,13 @@ function UsuarioPrincipal(){
             const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
             setProbability(Probabilidad);
             setProbabilidad_mensaje(Probabilidad*100);
+            setMensaje("Análisis realizado con éxito");
             console.log("nueva probabilidad", nuevaProbabilidad.data);
+            setTypeMessage("success");
         }
         else{
             console.log("No se pudo realizar la consulta.");
-            setError("No se pudo realizar la consulta.");
+            setMensaje("No se pudo realizar la consulta.");
         }
               console.log("respuesta del backend", res.data);
               console.log("nuevaProbabilidad", nuevaProbabilidad.data);
@@ -130,18 +133,19 @@ function UsuarioPrincipal(){
               console.log("probabilidad_mensaje", probabilidad_mensaje);
        
                 console.log("No se pudo realizar la consulta.");
-                setError("No se pudo realizar la consulta.");
+                setMensaje("No se pudo realizar la consulta.");
+                setTypeMessage("error");
           
              
         }catch(err){
             console.error(err);
-            setError("Error al conectar con el servidor");
+            setMensaje("Error al conectar con el servidor");
         }
     }
     return(
 
         <div className='Contenedor-principal'>
-            <AlertMessage message={error} type="error" onClose={() => setError('')} />
+            <AlertMessage message={mensaje} type={typeMessage} onClose={() => setMensaje('')} />
             <div className='Pantalla-principal'>
                 <div className="navbar-container-dashboard">
                 <Navbar />
