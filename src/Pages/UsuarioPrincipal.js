@@ -90,56 +90,55 @@ function UsuarioPrincipal(){
         obtenerProbability();
     }, []);
     async function onSubmit(event) {  
-        event.preventDefault();//obtener id_usuario, luego llamar a la ia y obtener probabilidad de diabates y una vez todo mandar al backend todo
-        const correo= localStorage.getItem('correo_usuario');
+        event.preventDefault();
+        const correo = localStorage.getItem('correo_usuario');
         console.log("correo_usuario", correo);
-        try{
-                const id_usuario_axios= await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`)
-                console.log("id usuario", id_usuario_axios.data.id_usuario);
-                 ID_usuario= id_usuario_axios.data.id_usuario;
-                setId_usuario(id_usuario_axios.data.id_usuario);
-        }catch(err){
+        try {
+            const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
+            console.log("id usuario", id_usuario_axios.data.id_usuario);
+            ID_usuario = id_usuario_axios.data.id_usuario;
+            setId_usuario(id_usuario_axios.data.id_usuario);
+        } catch (err) {
             console.log(err);
+            setMensaje("No se pudo obtener el usuario.");
+            setTypeMessage("error");
+            return;
         }
-        try{
-           const res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/analisis',{
-            id_usuario: ID_usuario,
-            glucosa: Number(indice_glucosa),
-            insulina: Number(nivel_insulina),
-            numero_de_embarazos: Number(n_embarazos),
-            presion_arterial: Number(presion_arterial),
-            grosor_de_piel: Number(grosor_piel),
-            indice_de_masa_corporal: Number(indice_masa_corporal),
-            funcion_de_herencia: Number(herencia_diabetica),
-            edad: Number(edad),
-            fecha_de_analisis: Fecha_de_analisis
-           })
-           const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
-        if (nuevaProbabilidad.data) {
-            const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
-            setProbability(Probabilidad);
-            setProbabilidad_mensaje(Probabilidad*100);
-            setMensaje("Análisis realizado con éxito");
-            console.log("nueva probabilidad", nuevaProbabilidad.data);
-            setTypeMessage("success");
-        }
-        else{
-            console.log("No se pudo realizar la consulta.");
-            setMensaje("No se pudo realizar la consulta.");
-        }
-              console.log("respuesta del backend", res.data);
-              console.log("nuevaProbabilidad", nuevaProbabilidad.data);
-              console.log("Id_usuario", ID_usuario);
-              console.log("probabilidad_mensaje", probabilidad_mensaje);
-       
-                console.log("No se pudo realizar la consulta.");
+
+        try {
+            const res = await axios.post('https://diabetes-ia-backend-1.onrender.com/api/analisis', {
+                id_usuario: ID_usuario,
+                glucosa: Number(indice_glucosa),
+                insulina: Number(nivel_insulina),
+                numero_de_embarazos: Number(n_embarazos),
+                presion_arterial: Number(presion_arterial),
+                grosor_de_piel: Number(grosor_piel),
+                indice_de_masa_corporal: Number(indice_masa_corporal),
+                funcion_de_herencia: Number(herencia_diabetica),
+                edad: Number(edad),
+                fecha_de_analisis: Fecha_de_analisis
+            });
+            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
+            if (nuevaProbabilidad.data && nuevaProbabilidad.data.probabilidad_diabetes !== undefined) {
+                const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
+                setProbability(Probabilidad);
+                setProbabilidad_mensaje(Probabilidad * 100);
+                setMensaje("Análisis realizado con éxito");
+                setTypeMessage("success");
+                console.log("nueva probabilidad", nuevaProbabilidad.data);
+            } else {
                 setMensaje("No se pudo realizar la consulta.");
                 setTypeMessage("error");
-          
-             
-        }catch(err){
+                console.log("No se pudo realizar la consulta.");
+            }
+            console.log("respuesta del backend", res.data);
+            console.log("nuevaProbabilidad", nuevaProbabilidad.data);
+            console.log("Id_usuario", ID_usuario);
+            console.log("probabilidad_mensaje", probabilidad_mensaje);
+        } catch (err) {
             console.error(err);
             setMensaje("Error al conectar con el servidor");
+            setTypeMessage("error");
         }
     }
     return(
