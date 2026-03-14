@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import Logo from '../Logo.jpeg';
+import Logo from '../Logo2.jpeg';
 import '../css/recuperarContrasena.css';
 function VerificarCodigo() {
   const [codigo, setCodigo] = useState("");

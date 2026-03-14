@@ -1,9 +1,10 @@
 .navbar {
-  background-color: #d3e8f7;
+  background-color: #b8d8f0;
   height: 90vh;
   width: 16vw;
   display: flex;
   flex-direction: column;
+  font-family: Arial, sans-serif;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }

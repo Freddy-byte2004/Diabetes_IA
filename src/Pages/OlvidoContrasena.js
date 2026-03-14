@@ -1,4 +1,4 @@
-import Logo from '../Logo.jpeg';
+import Logo from '../Logo2.jpeg';
 import '../css/login.css';
 import { useState } from 'react';
 import axios from 'axios';

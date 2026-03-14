@@ -1,35 +1,50 @@
 .contenedor-principal-tabla-historial {
   width: 100%;
-  max-width: 900px; /* Ajusta según tu diseño */
-  padding: 10px;
- 
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.contenedor-titulo-historial {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.contenedor-titulo-historial h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #203040;
+  font-weight: 700;
 }
 
 .contenedor-tabla-historial {
   width: 100%;
-  margin-right: 80px;
-  
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto; /* permite scroll horizontal en pantallas pequeñas */
 }
 
 .tabla-historia {
-  
   width: 100%;
-  max-width: 100%;
+  min-width: 720px; /* asegura legibilidad en desktop */
   table-layout: auto;
-
   border-collapse: collapse;
   font-family: 'Arial', sans-serif;
-  background-color: #fff1f1;
-  box-shadow: 0 2px 6px rgba(0, 64, 128, 0.1);
-  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 64, 128, 0.06);
+  border-radius: 8px;
   overflow: hidden;
 }
 
+.tabla-historia thead {
+  background-color: #d3e8f7;
+  color: #01121d;
+}
+
 th, td {
-  padding: 4px 8px; /* Reduce el espacio interno */
-  font-size: 11px;   /* Reduce el tamaño de texto */
+  padding: 8px 12px;
+  font-size: 13px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 th {
@@ -37,7 +52,18 @@ th {
   font-weight: bold;
 }
 
+.tabla-historia tbody tr:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.3s ease;
+}
+
 .editar-usuario {
   padding: 6px 12px;
   font-size: 13px;
+}
+
+/* Mensaje vacío centrado */
+.mensaje-vacio {
+  padding: 24px;
+  color: #555;
 }
