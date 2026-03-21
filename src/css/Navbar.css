@@ -1,104 +1,155 @@
 .navbar {
-  background-color: #b8d8f0;
-  height: 90vh;
-  width: 16vw;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 18px 14px;
+  border-radius: 0;
+  background: linear-gradient(165deg, #7ea6d0 0%, #5e88b8 100%);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  font-family: Arial, sans-serif;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.navar-brand{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 20vh;
-    width: 100vw;
-  
-
-}
-.logo-navbar{
-    width: 34vh;
-    height: 150px;
-    border-radius: 20px;
-   
+  font-family: 'Montserrat', Arial, sans-serif;
 }
 
-.navbar-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-}
-.Inicio,
-.NuevoAnalisis,
-.Perfil,
-.Historial,
-.CerrarSesion {
-  width: 90%;
-  height: 45px;
+.navbar-brand {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  font-size: 15px;
-  color: #01121d;
-  text-decoration: none;
-  margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  transition: all 0.3s ease; /* 👈 transición suave */
-  cursor: pointer;
-}
-.Inicio:hover,
-.NuevoAnalisis:hover,
-.Perfil:hover,
-.Historial:hover,
-.CerrarSesion:hover {
-  background: linear-gradient(90deg, #84b6f4, #5988ce);
-  color: #fff;
-  transform: scale(1.05); /* 👈 se agranda un poco */
-  box-shadow: 0 0 12px rgba(89, 136, 206, 0.6); /* 👈 brillo sutil */
+  justify-content: center;
+  padding: 12px 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(232, 243, 255, 0.55);
+  margin-bottom: 14px;
 }
 
-.NuevoAnalisis{
-    width: 90%;
-    height: 35px;
-    display: flex;
-    align-items: start;
-    justify-content: start;
-    font-size: 17px;
-    color: #01121d;
-    text-decoration: none;
-     margin: 5px;
+.logo-navbar {
+  width: min(160px, 100%);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.45)) drop-shadow(0 1px 3px rgba(8, 24, 44, 0.35));
 }
 
-
-.icono-navbar {
-  padding: 0 8px;
-  font-size: 25px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-.Inicio:hover .icono-navbar,
-.NuevoAnalisis:hover .icono-navbar,
-.Perfil:hover .icono-navbar,
-.Historial:hover .icono-navbar,
-.CerrarSesion:hover .icono-navbar {
-  transform: rotate(-5deg) scale(1.2); /* 👈 pequeño giro + escala */
-  color: #fff;
+.navbar-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .navbar-content a {
-    display: flex;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
-.texto-navbar:hover {
-  color: #fff;
+.Inicio,
+.Perfil,
+.Historial,
+.CerrarSesion {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 4px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
-.texto-navbar {
-  color: rgb(79, 92, 97);
-  font-size: 15px;
-  transition: color 0.3s ease;
+
+.Inicio:hover,
+.Perfil:hover,
+.Historial:hover,
+.CerrarSesion:hover {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(225, 240, 255, 0.28);
+  transform: translateX(3px);
+}
+
+.CerrarSesion {
+  margin-top: 6px;
+}
+
+.CerrarSesion:hover {
+  background: rgba(255, 229, 229, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 215, 215, 0.28);
+}
+
+.icono-navbar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 20px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.Inicio:hover .icono-navbar,
+.Perfil:hover .icono-navbar,
+.Historial:hover .icono-navbar,
+.CerrarSesion:hover .icono-navbar {
+  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.3);
+  color: #8ed8ff;
+}
+
+.CerrarSesion .icono-navbar {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.CerrarSesion:hover .icono-navbar {
+  background: rgba(255, 255, 255, 0.28);
+  color: #8ed8ff;
+}
+
+.texto-navbar {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: color 0.25s ease;
+}
+
+.Inicio:hover .texto-navbar,
+.Perfil:hover .texto-navbar,
+.Historial:hover .texto-navbar {
+  color: #8ed8ff;
+}
+
+.CerrarSesion:hover .texto-navbar {
+  color: #8ed8ff;
+}
+
+@media (max-width: 980px) {
+  .navbar {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+  }
+
+  .navbar-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .Inicio,
+  .Perfil,
+  .Historial,
+  .CerrarSesion {
+    width: calc(50% - 8px);
+  }
 }

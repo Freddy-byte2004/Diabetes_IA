@@ -49,15 +49,112 @@
 .historial-title-wrap{
   width: 100%;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .historial-title-wrap h1{
   margin: 0;
 }
 
+.btn-exportar-historial {
+  border: none;
+  background-color: #2f7bb2;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-exportar-historial:hover {
+  background-color: #1f5e8b;
+}
+
+.btn-exportar-historial:disabled {
+  background-color: #8fb8d8;
+  cursor: not-allowed;
+}
+
 .historial-table-wrap{
   width: 100%;
   box-sizing: border-box;
+  min-height: 0;
+  height: clamp(320px, 58vh, 680px);
+  overflow: auto;
+  border: 1px solid #d9e5f1;
+  border-radius: 10px;
+}
+
+.historial-user-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 8px 16px;
+  margin: 6px 0 14px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #eef5fb;
+  border: 1px solid #d3e4f3;
+  box-sizing: border-box;
+}
+
+.historial-user-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #deebf7;
+}
+
+.historial-user-item .label {
+  font-size: 12px;
+  color: #5f7e99;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.historial-user-item .value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f4f74;
+}
+
+.historial-kpis-view {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.kpi-card {
+  background: linear-gradient(160deg, #f4faff 0%, #e7f2fc 100%);
+  border: 1px solid #d6e8f8;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.kpi-label {
+  font-size: 12px;
+  color: #5a7792;
+}
+
+.kpi-value {
+  font-size: 20px;
+  color: #255d87;
 }
 
 .historial-loader {
@@ -89,9 +186,10 @@
 .contenedor-tabla-historial{
   width: 100%;
   margin: 0;
-  padding: 8px 0;
+  padding: 0;
   box-sizing: border-box;
-  overflow-x: auto;
+  max-height: none;
+  overflow: visible;
   animation: aparecerSuave 0.8s ease forwards;
 }
 .tabla-historia{
@@ -130,6 +228,14 @@
 
   .historial-main {
     padding: 16px;
+  }
+
+  .historial-user-header {
+    grid-template-columns: 1fr;
+  }
+
+  .historial-kpis-view {
+    grid-template-columns: 1fr;
   }
 }
 

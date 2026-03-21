@@ -27,6 +27,7 @@ function UsuarioPrincipal(){
     const [mensaje, setMensaje] = useState(''); 
     
     const [typeMessage,setTypeMessage]= useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     function handleN_embarazosChange(event) {
         setN_embarazos(event.target.value);
        
@@ -91,6 +92,7 @@ function UsuarioPrincipal(){
     }, []);
     async function onSubmit(event) {  
         event.preventDefault();
+        setIsSubmitting(true);
         const correo = localStorage.getItem('correo_usuario');
         console.log("correo_usuario", correo);
         try {
@@ -139,6 +141,8 @@ function UsuarioPrincipal(){
             console.error(err);
             setMensaje("Error al conectar con el servidor");
             setTypeMessage("error");
+        } finally {
+            setIsSubmitting(false);
         }
     }
     return(
@@ -146,23 +150,53 @@ function UsuarioPrincipal(){
         <div className='Contenedor-principal'>
             <AlertMessage message={mensaje} type={typeMessage} onClose={() => setMensaje('')} />
             <div className='Pantalla-principal'>
+                {isSubmitting && (
+                    <div className='overlay-carga-prediccion' role='status' aria-live='polite'>
+                        <div className='spinner-celeste-prediccion' aria-hidden='true'></div>
+                        <p>Cargando datos...</p>
+                    </div>
+                )}
                 <div className="navbar-container-dashboard">
                 <Navbar />
                 </div>
-                
+        
                 <div className='contendor-formulario'>
                     
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
-                            <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field' />
-                            <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field' />
-                            <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field' />
-                            <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field' />
-                            <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} className='input-field' />
-                            <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} className='input-field' />
-                            <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} />
-                            <input type="number" placeholder="Edad" value={edad} onChange={handleEdadChange} />
-                            <input type="submit" value="Enviar" className="boton-enviar"/>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field input-con-unidad' />
+                               
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field input-con-unidad' />
+                                <span className='unit-suffix'>mg/dL</span>
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field input-con-unidad' />
+                                <span className='unit-suffix'>mmHg</span>
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field input-con-unidad' />
+                                <span className='unit-suffix'>mm</span>
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} className='input-field input-con-unidad' />
+                                <span className='unit-suffix'>mu/mL</span>
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} className='input-field input-con-unidad' />
+                                <span className='unit-suffix'>kg/m2</span>
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} className='input-field input-con-unidad' />
+                                
+                            </div>
+                            <div className='unit-input-group'>
+                                <input type="number" placeholder="Edad" value={edad} onChange={handleEdadChange} className='input-field input-con-unidad' />
+                                
+                            </div>
+                            <input type="submit" value="Enviar" className="boton-enviar" disabled={isSubmitting}/>
                     </form>
                
                 </div>
@@ -179,6 +213,7 @@ function UsuarioPrincipal(){
                 <div className='contenedor-grafica-barra'>
                     <Barra glucosa={Number(indice_glucosa)} insulina={Number(nivel_insulina)} bmi={Number(indice_masa_corporal)} />
                 </div>
+            
                 
             </div>
             

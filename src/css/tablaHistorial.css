@@ -20,7 +20,8 @@
   width: 100%;
   margin: 0;
   box-sizing: border-box;
-  overflow: auto; /* permite scroll horizontal en pantallas pequeñas */
+  max-height: none;
+  overflow: visible;
 }
 
 .tabla-historia {
@@ -36,20 +37,28 @@
 }
 
 .tabla-historia thead {
-  background-color: #d3e8f7;
-  color: #01121d;
+  background: linear-gradient(165deg, #7ea6d0 0%, #5e88b8 100%);
+  color: #ffffff;
 }
 
-th, td {
+.tabla-historia thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.tabla-historia th,
+.tabla-historia td {
   padding: 8px 12px;
   font-size: 13px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #e8e8e8;
 }
 
-th {
+.tabla-historia th {
   font-size: 14px;
   font-weight: bold;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .tabla-historia tbody tr:hover {

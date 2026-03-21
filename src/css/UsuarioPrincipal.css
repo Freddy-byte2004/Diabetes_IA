@@ -22,7 +22,7 @@
     box-shadow: rgb(16, 59, 87) 0px 0px 20px 0px;
     position: relative;
     overflow: hidden;
-    animation: aparecerSuave 0.8s ease forwards;
+   
 
 }
 .navbar-container-dashboard {
@@ -42,6 +42,34 @@
     border-radius: 0;
     box-shadow: none;
 }
+
+.overlay-carga-prediccion {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background-color: rgba(176, 216, 240, 0.65);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.overlay-carga-prediccion p {
+    margin: 0;
+    color: #2b6ea3;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.spinner-celeste-prediccion {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 5px solid #d3e8f7;
+    border-top-color: #5988ce;
+    animation: giroLoaderPrediccion 0.8s linear infinite;
+}
 .contendor-formulario{
     padding: 5px;
     align-items: center;
@@ -49,6 +77,12 @@
     display: flex;
     flex-direction: column;
 
+}
+
+.contendor-formulario,
+.contenedor-grafica,
+.contenedor-grafica-barra {
+    animation: aparecerSuave 0.8s ease forwards;
 }
 .Formulario{
     display: flex;
@@ -72,7 +106,8 @@ input[type="number"]{
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 15px 2px;
+    margin: 5px 2px;
+    margin-bottom: 19px;
     cursor: pointer;
     border-radius: 12px;
     width: 80%;
@@ -80,6 +115,11 @@ input[type="number"]{
 }
 .boton-enviar:hover{
     background-color: #084b75;
+}
+
+.boton-enviar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 
@@ -105,7 +145,7 @@ position: absolute;
 h1{
     color: #084b75;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
 }
 h2{
@@ -138,4 +178,10 @@ h2{
     opacity: 1;
     transform: translateY(0); /* vuelve a su lugar */
   }
+}
+
+@keyframes giroLoaderPrediccion {
+    to {
+        transform: rotate(360deg);
+    }
 }

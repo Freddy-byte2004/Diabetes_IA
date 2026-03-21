@@ -16,6 +16,8 @@ function RegistroUsuario() {
   const [apellido,setApellido]= useState(''); 
   const [confirmarContraseña,setConfirmarContraseña]= useState('');
   const [error, setError] = useState(''); 
+  const [codigoUnico, setCodigoUnico] = useState('');
+  const [mostrarDialogoCodigo, setMostrarDialogoCodigo] = useState(false);
 
   function handleCorreo(e){
    setCorreo(e.target.value);
@@ -61,10 +63,9 @@ function RegistroUsuario() {
 
       console.log("respuesta del backend", res.data.message);
       if(res.data.message === "Usuario registrado exitosamente"){
-       setError("Usuario registrado exitosamente");
-         setTimeout(() => {
-        navigate('/');
-      }, 3000);
+       setError('');
+       setCodigoUnico(res.data.codigo_unico || 'No disponible');
+       setMostrarDialogoCodigo(true);
       } else {
         console.log("Error en el registro:", res.data.message);
         setError(res.data.message?.trim() || 'Error en el registro');
@@ -77,7 +78,33 @@ function RegistroUsuario() {
 
 return( 
   <div className='Contenedor-principal-login'>
-    <AlertMessage message={error} type={error === "Usuario registrado exitosamente" ? "success" : "error"} onClose={() => setError('')} />
+    <AlertMessage message={error} type="error" onClose={() => setError('')} />
+
+    {mostrarDialogoCodigo && (
+      <div className='dialogo-overlay-codigo'>
+        <div className='dialogo-codigo'>
+          <h2>Registro exitoso</h2>
+          <p>
+            Este es tu codigo unico:
+          </p>
+          <div className='codigo-unico-valor'>{codigoUnico}</div>
+          <p>
+            Guardalo en un lugar seguro. No volveras a verlo y lo necesitaras para cambiar o recuperar tu contraseña.
+          </p>
+          <button
+            type='button'
+            className='boton-codigo-dialogo'
+            onClick={() => {
+              setMostrarDialogoCodigo(false);
+              navigate('/');
+            }}
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    )}
+
     <div className='Contenedor-registro'>
         <div className='logo'>
             <img src={Logo} alt="Logo de la aplicación" />  

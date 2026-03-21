@@ -20,3 +20,28 @@ input[type="number"]{
    
     padding: 5px;
 }
+
+.unit-input-group {
+    position: relative;
+    width: auto;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.unit-input-group .input-con-unidad {
+    width: auto;
+    padding-right: 58px;
+    box-sizing: border-box;
+}
+
+.unit-suffix {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #5f7486;
+    font-size: 0.85rem;
+    font-weight: 600;
+    pointer-events: none;
+    user-select: none;
+}

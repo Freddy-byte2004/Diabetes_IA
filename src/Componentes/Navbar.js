@@ -2,7 +2,7 @@ import React from "react";
 import '../css/Navbar.css';
 import Logo from '../Logo.png';
 import { Link } from 'react-router-dom';
-import { AiFillHome, AiFillPlusSquare, AiFillClockCircle, AiFillProfile, AiFillCloseCircle } from "react-icons/ai";
+import { AiFillHome, AiFillClockCircle, AiFillProfile, AiFillCloseCircle } from "react-icons/ai";
 function cerrarSesion(){
     localStorage.removeItem('token');
 }

@@ -21,13 +21,13 @@
 }
 
 .contenedor-principal-tabla thead {
-  background-color: #d3e8f7;
-  color: #01121d;
+  background: linear-gradient(165deg, #7ea6d0 0%, #5e88b8 100%);
+  color: #ffffff;
 }
 
 .nombre, .apellido, .cedula, .direccion, .telefono, .acciones {
   padding: 16px 20px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -39,11 +39,18 @@
 .contenedor-principal-tabla th {
   font-size: 16px;
   font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .nombre-fila, .apellido-fila, .cedula-fila, .direccion-fila, .telefono-fila, .acciones-fila {
   font-size: 17px;
   color: #333;
+  text-align: center;
+}
+
+.contenedor-principal-tabla td {
+  text-align: center;
 }
 .editar-usuario {
   background-color: #30759c; 
