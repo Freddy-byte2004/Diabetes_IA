@@ -134,12 +134,12 @@ position: absolute;
 .contenedor-grafica-barra{
     position: absolute;
     bottom: 20px;
-    top: 40%;
+    top: 60%;
     left: 70%;
     right: 20px;
     width: 250px;
-    height: 300px;
-    z-index: 2;
+    height: 250px;
+    z-index: 1;
 }
 
 h1{
@@ -183,5 +183,94 @@ h2{
 @keyframes giroLoaderPrediccion {
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .Contenedor-principal {
+        height: auto;
+        min-height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 8px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .Pantalla-principal {
+        width: 100%;
+        max-width: calc(100vw - 16px);
+        max-width: 560px;
+        height: auto;
+        min-height: auto;
+        padding: 12px;
+        box-sizing: border-box;
+        justify-content: flex-start;
+        overflow: visible;
+        gap: 10px;
+    }
+
+    .navbar-container-dashboard {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .navbar-container-dashboard .navbar {
+        height: auto;
+        min-height: 0;
+        border-radius: 12px;
+    }
+
+    .contendor-formulario,
+    .contenedor-grafica,
+    .contenedor-grafica-barra {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .Formulario {
+        width: 100%;
+        min-width: 0;
+        padding: 14px 10px;
+    }
+
+    .Formulario .unit-input-group {
+        width: 100%;
+    }
+
+    .Formulario .unit-input-group .input-con-unidad {
+        width: 100%;
+    }
+
+    .boton-enviar {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .contenedor-grafica h2 {
+        margin-top: 0;
+    }
+
+    .contenedor-grafica {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: min(280px, 92vw);
+        max-width: 280px;
+        height: 280px;
+        margin: 0 auto;
+    }
+
+    .contenedor-grafica-barra {
+        width: 100%;
+        max-width: 340px;
+        height: 280px;
+        margin: 0 auto;
     }
 }

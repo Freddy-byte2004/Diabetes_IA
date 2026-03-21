@@ -73,3 +73,37 @@
 .contenedor-principal-tabla table thead tr:first-child th:last-child {
   border-top-right-radius: 12px;
 }
+
+@media (max-width: 768px) {
+  .contenedor-principal-tabla {
+    justify-content: flex-start;
+    padding: 8px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .contenedor-principal-tabla table {
+    min-width: 720px;
+  }
+
+  .nombre, .apellido, .cedula, .direccion, .telefono, .acciones {
+    padding: 10px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .contenedor-principal-tabla th {
+    font-size: 13px;
+  }
+
+  .nombre-fila, .apellido-fila, .cedula-fila, .direccion-fila, .telefono-fila, .acciones-fila {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .editar-usuario {
+    padding: 8px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+}

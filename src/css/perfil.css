@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     background-color: #b4d8f0;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     padding: 24px 12px;
     box-sizing: border-box;
@@ -13,6 +13,7 @@
 .perfil-panel{
     width: 100%;
     max-width: 1200px;
+    margin: 0 auto;
     min-height: calc(100vh - 48px);
     background-color: #ffffff;
     display: flex;
@@ -119,6 +120,75 @@
 
     .perfil-main {
         padding: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-page {
+        padding: 10px 8px;
+        align-items: center;
+    }
+
+    .perfil-panel {
+        flex-direction: column;
+        width: min(100%, 560px);
+        min-height: auto;
+        border-radius: 16px;
+    }
+
+    .perfil-navbar {
+        width: 100%;
+        min-width: 0;
+        padding: 12px 12px 0;
+        box-sizing: border-box;
+        justify-content: center;
+    }
+
+    .perfil-navbar .navbar {
+        width: 100%;
+        min-height: 0;
+        height: auto;
+        border-radius: 12px;
+    }
+
+    .perfil-main {
+        justify-content: flex-start;
+        align-items: stretch;
+        padding: 14px 10px;
+    }
+
+    .perfil-title {
+        margin-bottom: 10px;
+    }
+
+    .perfil-title h1 {
+        font-size: 1.1rem;
+        line-height: 1.35;
+    }
+
+    .perfil-table-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .perfil-loader {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .perfil-page {
+        padding: 8px 6px;
+    }
+
+    .perfil-main {
+        padding: 12px 8px;
+    }
+
+    .perfil-title h1 {
+        font-size: 1rem;
     }
 }
 

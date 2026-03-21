@@ -76,3 +76,30 @@
   padding: 24px;
   color: #555;
 }
+
+@media (max-width: 768px) {
+  .contenedor-principal-tabla-historial {
+    padding: 8px;
+  }
+
+  .contenedor-tabla-historial {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabla-historia {
+    min-width: 760px;
+  }
+
+  .tabla-historia th,
+  .tabla-historia td {
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .tabla-historia th {
+    font-size: 12px;
+  }
+}

@@ -64,8 +64,8 @@ async function generarCodigo() {
     console.error("Error al generar el código:", error);
   }
 }
-  return (
-    <>
+  const editDialog = createPortal(
+    <div className="modal-edicion-overlay">
       <div className="modal-edicion">
         {newCode?.message && (
           <AlertMessage
@@ -86,6 +86,12 @@ async function generarCodigo() {
           <button type="button" onClick={onClose}>Cancelar</button>
         </form>
       </div>
+    </div>,
+    document.body
+  );
+  return (
+    <>
+      {editDialog}
       {codeDialog}
     </>
   );
