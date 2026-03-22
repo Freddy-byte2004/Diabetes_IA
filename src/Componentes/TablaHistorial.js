@@ -36,7 +36,7 @@ function TablaHistorial({ data }) {
                 <td>{historial.grosor_de_piel}</td>
                 <td>{historial.funcion_de_herencia}</td>
                 <td>{historial.edad}</td>
-                <td>{historial.probabilidad_diabetes}</td>
+                <td>{(historial.probabilidad_diabetes * 100).toFixed(2)}%</td>
                 <td>{historial.fecha_de_analisis}</td>
               </tr>
             ))}

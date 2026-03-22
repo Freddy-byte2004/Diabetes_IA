@@ -25,9 +25,7 @@ function Tabla({ data, onDatosActualizados }) {
           <thead>
             <tr>
               
-              <th className="nombre">Nombre</th>
-              <th className="apellido">Apellido</th>
-              <th className="cedula">Cedula</th>
+              <th className="nombre">Nombre de la Institucion</th>
               <th className="direccion">Direccion</th>
               <th className="telefono">Telefono</th>
               <th className="acciones">Acciones</th>
@@ -37,8 +35,6 @@ function Tabla({ data, onDatosActualizados }) {
             {data.map((persona, index) => (
               <tr key={index}>
                 <td className="nombre-fila">{persona.nombre}</td>
-                <td className="apellido-fila">{persona.apellido}</td>
-                <td className="cedula-fila">{persona.cedula}</td>
                 <td className="direccion-fila">{persona.direccion}</td>
                 <td className="telefono-fila">{persona.telefono}</td>
                 <td>

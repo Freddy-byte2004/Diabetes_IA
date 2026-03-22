@@ -43,7 +43,7 @@ function RegistroUsuario() {
 
   async function onSubmit(event) {
   event.preventDefault();
-   if (!correo || !contraseña || !confirmarContraseña || !nombre || !apellido) {
+   if (!correo || !contraseña || !confirmarContraseña || !nombre) {
     setError("Por favor, complete todos los campos");
     return;
   }
@@ -58,7 +58,6 @@ function RegistroUsuario() {
   usuario: correo,
   contrasena: contraseña,
   nombre: nombre,
-  apellido: apellido
 });
 
       console.log("respuesta del backend", res.data.message);
@@ -112,13 +111,13 @@ return(
         <div className='titulo'><h1>Registro de usuario</h1></div>
         <div className='formulario'>
             <form onSubmit={onSubmit}>
-                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese su correo' value={correo} onChange={handleCorreo} /></div>
+                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese el correo' value={correo} onChange={handleCorreo} /></div>
               
 
                <div className='input-contraseña'><AiFillLock />  <input type="password" placeholder='Ingrese su contraseña' value={contraseña} onChange={handleContraseña} /></div> 
                <div className='input-contraseña-confirmar'><AiFillLock />  <input type="password" placeholder='Confirme su contraseña' value={confirmarContraseña} onChange={handleConfirmarContraseña} /></div> 
-               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese su nombre' value={nombre} onChange={handleNombre} /></div>
-               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese su apellido' value={apellido} onChange={handleApellido} /></div>
+               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese el nombre de la institucion' value={nombre} onChange={handleNombre} /></div>
+  
                  <input type="submit" value="Registrar" className='boton'/>
                
             </form>

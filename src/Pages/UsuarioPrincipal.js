@@ -14,6 +14,8 @@ function UsuarioPrincipal(){
    let ID_usuario;
     const hoy= new Date();
     const Fecha_de_analisis= hoy.toISOString().split('T')[0];
+    const [pacientes, setPacientes] = useState([]);
+    const [id_paciente, setId_paciente] = useState('');
     const [n_embarazos, setN_embarazos] = useState();
     const [indice_glucosa, setIndice_glucosa] = useState();
     const [presion_arterial, setPresion_arterial] = useState();
@@ -23,7 +25,6 @@ function UsuarioPrincipal(){
     const [herencia_diabetica, setHerencia_diabetica] = useState();
     const [edad, setEdad] = useState();
     const [probabilidad_mensaje, setProbabilidad_mensaje] = useState(0);
-    const [Id_usuario, setId_usuario] = useState();
     const [mensaje, setMensaje] = useState(''); 
     
     const [typeMessage,setTypeMessage]= useState('');
@@ -31,6 +32,10 @@ function UsuarioPrincipal(){
     function handleN_embarazosChange(event) {
         setN_embarazos(event.target.value);
        
+    }
+
+    function handlePacienteChange(event) {
+        setId_paciente(event.target.value);
     }
 
     function handleIndiceGlucosaChange(event) {
@@ -62,54 +67,68 @@ function UsuarioPrincipal(){
        
     }
      useEffect(() => {
-        async function obtenerProbability() {
-            const correo = localStorage.getItem('correo_usuario');
+        async function cargarDatosIniciales() {
             try {
-                const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
-                const id_usuario= id_usuario_axios.data.id_usuario
-                console.log("id usuario", id_usuario);
+                const pacientesResponse = await axios.get('https://diabetes-ia-backend-1.onrender.com/api/paciente');
+                const pacientesData = Array.isArray(pacientesResponse.data) ? pacientesResponse.data : [];
+                setPacientes(pacientesData);
+            } catch (err) {
+                console.error(err);
+            }
 
-                const res = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_usuario}`);
+        }
+        cargarDatosIniciales();
+    }, []);
 
-                if (res.data) {
-                    const Probabilidad = res.data.probabilidad_diabetes;
-                   console.log("probabilidad obtenida", res.data.probabilidad_diabetes);
-                   console.log("probabilidad variable", Probabilidad);
-                   setProbability(Probabilidad);
-                   setProbabilidad_mensaje(Probabilidad*100);
-                   console.log("probabilidad mensaje", probabilidad_mensaje);
-                }
-                else{
-                    console.log("No hay datos de probabilidad para este usuario.");
-                    
+    useEffect(() => {
+        async function obtenerProbabilidadPacienteSeleccionado() {
+            if (!id_paciente) {
+                setProbability(0);
+                setProbabilidad_mensaje(0);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_paciente}`);
+
+                if (response.data && response.data.probabilidad_diabetes !== undefined) {
+                    const probabilidadPaciente = response.data.probabilidad_diabetes;
+                    setProbability(probabilidadPaciente);
+                    setProbabilidad_mensaje(probabilidadPaciente * 100);
+                } else {
+                    setProbability(0);
+                    setProbabilidad_mensaje(0);
                 }
             } catch (err) {
                 console.error(err);
-              
+                setProbability(0);
+                setProbabilidad_mensaje(0);
             }
         }
-        obtenerProbability();
-    }, []);
+
+        obtenerProbabilidadPacienteSeleccionado();
+    }, [id_paciente]);
+
     async function onSubmit(event) {  
         event.preventDefault();
         setIsSubmitting(true);
-        const correo = localStorage.getItem('correo_usuario');
-        console.log("correo_usuario", correo);
+      
+      
         try {
-            const id_usuario_axios = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
-            console.log("id usuario", id_usuario_axios.data.id_usuario);
-            ID_usuario = id_usuario_axios.data.id_usuario;
-            setId_usuario(id_usuario_axios.data.id_usuario);
+           
+        
         } catch (err) {
             console.log(err);
             setMensaje("No se pudo obtener el usuario.");
             setTypeMessage("error");
+            setIsSubmitting(false);
             return;
         }
 
         try {
             const res = await axios.post('https://diabetes-ia-backend-1.onrender.com/api/analisis', {
-                id_usuario: ID_usuario,
+           
+                id_paciente: Number(id_paciente),
                 glucosa: Number(indice_glucosa),
                 insulina: Number(nivel_insulina),
                 numero_de_embarazos: Number(n_embarazos),
@@ -120,7 +139,7 @@ function UsuarioPrincipal(){
                 edad: Number(edad),
                 fecha_de_analisis: Fecha_de_analisis
             });
-            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${ID_usuario}`);
+            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_paciente}`);
             if (nuevaProbabilidad.data && nuevaProbabilidad.data.probabilidad_diabetes !== undefined) {
                 const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
                 setProbability(Probabilidad);
@@ -164,6 +183,16 @@ function UsuarioPrincipal(){
                     
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
+                            <div className='unit-input-group select-paciente-group'>
+                                <select value={id_paciente} onChange={handlePacienteChange} className='input-field input-con-unidad select-paciente' required>
+                                    <option value=''>Selecciona un paciente</option>
+                                    {pacientes.map((paciente) => (
+                                        <option key={paciente.id_paciente} value={paciente.id_paciente}>
+                                            {`${paciente.nombre} ${paciente.apellido}`}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             <div className='unit-input-group'>
                                 <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field input-con-unidad' />
                                

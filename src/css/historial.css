@@ -61,6 +61,29 @@
   margin: 0;
 }
 
+.historial-title-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.historial-paciente-select {
+  min-width: 250px;
+  border: 1px solid #bfd8ee;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #1f4f74;
+  background: #f8fcff;
+  outline: none;
+}
+
+.historial-paciente-select:focus {
+  border-color: #4d97ca;
+  box-shadow: 0 0 0 3px rgba(77, 151, 202, 0.2);
+}
+
 .btn-exportar-historial {
   border: none;
   background-color: #2f7bb2;
@@ -279,6 +302,17 @@
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+  }
+
+  .historial-title-select-wrap {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .historial-paciente-select {
+    width: 100%;
+    min-width: 0;
   }
 
   .historial-title-wrap h1 {

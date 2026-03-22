@@ -9,15 +9,31 @@ function Historial(){
 const [datos, setDatos]= useState([]);
 const [nombreUsuario, setNombreUsuario] = useState('');
 const [loading, setLoading] = useState(true);
+const [pacientes, setPacientes] = useState([]);
+const [idPacienteSeleccionado, setIdPacienteSeleccionado] = useState(
+  localStorage.getItem('id_paciente_historial') || ''
+);
 const [usuarioInfo, setUsuarioInfo] = useState({
   nombre: 'Usuario',
   apellido: 'No disponible',
   telefono: 'No disponible',
   cedula: 'No disponible',
-  correo: 'No disponible'
+  direccion: 'No disponible'
 });
 
-const correo= localStorage.getItem("correo_usuario");
+const handlePacienteChange = (event) => {
+  const nuevoIdPaciente = event.target.value;
+  setIdPacienteSeleccionado(nuevoIdPaciente);
+  localStorage.setItem('id_paciente_historial', nuevoIdPaciente);
+
+  const pacienteSeleccionado = pacientes.find(
+    (paciente) => String(paciente.id_paciente) === String(nuevoIdPaciente)
+  );
+
+  if (pacienteSeleccionado) {
+    setNombreUsuario(`${pacienteSeleccionado.nombre || ''} ${pacienteSeleccionado.apellido || ''}`.trim() || 'Usuario');
+  }
+};
 
 const exportarHistorialXls = () => {
   if (!datos.length) {
@@ -55,7 +71,7 @@ const exportarHistorialXls = () => {
         <td>${escaparHtml(historial.grosor_de_piel)}</td>
         <td>${escaparHtml(historial.funcion_de_herencia)}</td>
         <td>${escaparHtml(historial.edad)}</td>
-        <td>${escaparHtml(historial.probabilidad_diabetes)}</td>
+         <td>${escaparHtml((historial.probabilidad_diabetes * 100).toFixed(2) + "%")}</td>
         <td>${escaparHtml(historial.fecha_de_analisis)}</td>
       </tr>
     `)
@@ -169,7 +185,7 @@ const exportarHistorialXls = () => {
                   <span class="separador">|</span>
                   <span class="dato"><strong>Telefono:</strong> ${escaparHtml(usuarioInfo.telefono)}</span>
                   <span class="separador">|</span>
-                  <span class="dato"><strong>Correo:</strong> ${escaparHtml(usuarioInfo.correo)}</span>
+                  <span class="dato"><strong>Direccion:</strong> ${escaparHtml(usuarioInfo.direccion)}</span>
                   <span class="separador">|</span>
                   <span class="dato"><strong>Fecha del reporte:</strong> ${escaparHtml(fechaReporte)}</span>
                 </th>
@@ -204,7 +220,7 @@ const exportarHistorialXls = () => {
 const obtenerDatos=useCallback(async ()=>{
   setLoading(true);
   try {
-    if (!correo) {
+    if (!idPacienteSeleccionado) {
       setDatos([]);
       setNombreUsuario('Usuario');
       setUsuarioInfo({
@@ -212,31 +228,31 @@ const obtenerDatos=useCallback(async ()=>{
         apellido: 'No disponible',
         telefono: 'No disponible',
         cedula: 'No disponible',
-        correo: 'No disponible'
+        direccion: 'No disponible'
       });
       return;
     }
 
-    const usuarioPorCorreo = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
-    const id = usuarioPorCorreo.data.id_usuario;
-
-    const [resUser, resAnalisis] = await Promise.all([
-      axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${id}`),
-      axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisis/${id}`)
+    const [resPaciente, resAnalisis] = await Promise.all([
+      axios.get(`https://diabetes-ia-backend-1.onrender.com/api/paciente/${idPacienteSeleccionado}`),
+      axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisis/${idPacienteSeleccionado}`)
     ]);
 
-    const usuario = resUser.data[0] || {};
-    const nombreCompleto = `${usuario.nombre || ''} ${usuario.apellido || ''}`.trim();
+    const paciente = Array.isArray(resPaciente.data)
+      ? (resPaciente.data[0] || {})
+      : (resPaciente.data || {});
+    const nombreCompleto = `${paciente.nombre || ''} ${paciente.apellido || ''}`.trim();
     setNombreUsuario(nombreCompleto || 'Usuario');
     setUsuarioInfo({
-      nombre: usuario.nombre || 'Usuario',
-      apellido: usuario.apellido || 'No disponible',
-      telefono: usuario.telefono || 'No disponible',
-      cedula: usuario.cedula || 'No disponible',
-      correo: correo || 'No disponible'
+      nombre: paciente.nombre || 'Usuario',
+      apellido: paciente.apellido || 'No disponible',
+      telefono: paciente.telefono || 'No disponible',
+      cedula: paciente.cedula || 'No disponible',
+      direccion: paciente.direccion || 'No disponible'
     });
 
-    const formattedData = resAnalisis.data.map((usuarioData) => ({
+    const analisisData = Array.isArray(resAnalisis.data) ? resAnalisis.data : [];
+    const formattedData = analisisData.map((usuarioData) => ({
       glucosa: usuarioData.glucosa,
       indice_de_masa_corporal: usuarioData.indice_de_masa_corporal,
       insulina: usuarioData.insulina,
@@ -257,11 +273,44 @@ const obtenerDatos=useCallback(async ()=>{
   } finally {
     setLoading(false);
   }
-}, [correo])
+}, [idPacienteSeleccionado])
 
 useEffect(()=>{
   obtenerDatos();
 },[obtenerDatos])
+
+useEffect(() => {
+  const cargarPacientes = async () => {
+    try {
+      const pacientesResponse = await axios.get('https://diabetes-ia-backend-1.onrender.com/api/paciente');
+      const pacientesData = Array.isArray(pacientesResponse.data) ? pacientesResponse.data : [];
+      setPacientes(pacientesData);
+
+      if (!pacientesData.length) {
+        return;
+      }
+
+      const idGuardado = localStorage.getItem('id_paciente_historial') || '';
+      const existeIdGuardado = pacientesData.some(
+        (paciente) => String(paciente.id_paciente) === String(idGuardado)
+      );
+
+      if (existeIdGuardado) {
+        setIdPacienteSeleccionado(String(idGuardado));
+      } else if (!idPacienteSeleccionado) {
+        const primerIdPaciente = String(pacientesData[0].id_paciente);
+        setIdPacienteSeleccionado(primerIdPaciente);
+        localStorage.setItem('id_paciente_historial', primerIdPaciente);
+      }
+    } catch (error) {
+      console.error('Error al cargar pacientes:', error);
+      setPacientes([]);
+    }
+  };
+
+  cargarPacientes();
+}, [idPacienteSeleccionado]);
+
     return(
          <div className="historial-page">
     <div className="historial-panel">
@@ -270,7 +319,22 @@ useEffect(()=>{
       </div>
       <div className="historial-main">
         <div className="historial-title-wrap">
-          <h1>Historial de consultas del paciente: {nombreUsuario || '—'}</h1>
+          <div className="historial-title-select-wrap">
+            <h1>Historial de consultas del paciente:</h1>
+            <select
+              value={idPacienteSeleccionado}
+              onChange={handlePacienteChange}
+              className="historial-paciente-select"
+              aria-label="Seleccionar paciente para historial"
+            >
+              <option value="">Selecciona un paciente</option>
+              {pacientes.map((paciente) => (
+                <option key={paciente.id_paciente} value={paciente.id_paciente}>
+                  {`${paciente.nombre} ${paciente.apellido}`}
+                </option>
+              ))}
+            </select>
+          </div>
           <button
             type="button"
             className="btn-exportar-historial"
@@ -298,8 +362,8 @@ useEffect(()=>{
             <span className="value">{usuarioInfo.telefono}</span>
           </div>
           <div className="historial-user-item">
-            <span className="label">Correo</span>
-            <span className="value">{usuarioInfo.correo}</span>
+            <span className="label">Direccion</span>
+            <span className="value">{usuarioInfo.direccion}</span>
           </div>
         </div>
         <div className="historial-table-wrap">

@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 110vh;
+    height: 100vh;
     width: 100vw;
     background-color:   #b4d8f0;  
 
@@ -12,13 +12,14 @@
 
     background-color: #f0f4f5;
     width: 100vh;
-    height: 75vh;
+    height: 72vh;
+    min-height: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     border-radius: 20px;
-    padding: 50px 100px 30px 120px;
+    padding: 38px 100px 26px 120px;
     box-shadow: rgb(16, 59, 87) 0px 0px 20px 0px;
     position: relative;
     overflow: hidden;
@@ -76,6 +77,8 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
+    margin-top: 0;
+    padding-bottom: 10px;
 
 }
 
@@ -88,10 +91,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    justify-content: flex-start;
+    padding: 14px 20px 6px;
     position: relative;
     z-index: 4;
+    gap: 2px;
     /* border: 2px solid red;  // descomenta para depuración visual */
 }
 input[type="number"]{
@@ -106,8 +110,7 @@ input[type="number"]{
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 5px 2px;
-    margin-bottom: 19px;
+    margin: 6px 2px 0;
     cursor: pointer;
     border-radius: 12px;
     width: 80%;
@@ -145,7 +148,7 @@ position: absolute;
 h1{
     color: #084b75;
     font-size: 24px;
-    margin-bottom: 10px;
+    margin: 0 0 14px;
     text-align: center;
 }
 h2{
@@ -203,7 +206,7 @@ h2{
         max-width: 560px;
         height: auto;
         min-height: auto;
-        padding: 12px;
+        padding: 14px 12px;
         box-sizing: border-box;
         justify-content: flex-start;
         overflow: visible;

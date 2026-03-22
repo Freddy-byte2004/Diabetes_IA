@@ -36,10 +36,7 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
   const handleSubmit = (e) => {
     e.preventDefault();
    axios.put(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${usuario.id_usuario}`, {
-    nombre: formData.nombre,
-  apellido: formData.apellido,
-  
-  cedula: formData.cedula,          
+    nombre: formData.nombre,       
   telefono: formData.telefono,
   direccion: formData.direccion
 })
@@ -77,8 +74,6 @@ async function generarCodigo() {
         <form onSubmit={handleSubmit}>
           <h3>Editar Usuario</h3>
           <label>Nombre: <input name="nombre" value={formData.nombre || ""} onChange={handleChange} /></label>
-          <label>Apellido: <input name="apellido" value={formData.apellido || ""} onChange={handleChange} /></label>
-          <label>Cédula: <input name="cedula" value={formData.cedula || ""} onChange={handleChange} /></label>
           <label>Dirección: <input name="direccion" value={formData.direccion || ""} onChange={handleChange} /></label>
           <label>Teléfono: <input name="telefono" value={formData.telefono || ""} onChange={handleChange} /></label>
           <button type="button" onClick={generarCodigo}>Generar código</button>

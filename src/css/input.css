@@ -6,7 +6,8 @@ input[type="number"]{
   box-shadow: none;
   font-family: 'Montserrat', Arial, sans-serif;
   font-size: 1rem;
-  padding: 8px 8px  ;
+    width: 260px;
+    padding: 8px 72px 8px 8px;
   color: #333;
   border-radius: 5px;
   border: solid 1px #dde2e9;
@@ -24,13 +25,13 @@ input[type="number"]{
 .unit-input-group {
     position: relative;
     width: auto;
-    display: inline-block;
+    display: block;
     margin: 5px 0;
 }
 
 .unit-input-group .input-con-unidad {
-    width: auto;
-    padding-right: 58px;
+    width: 260px;
+   
     box-sizing: border-box;
 }
 
@@ -44,4 +45,45 @@ input[type="number"]{
     font-weight: 600;
     pointer-events: none;
     user-select: none;
+}
+
+.select-paciente-group {
+    width: auto;
+    max-width: 320px;
+    display: block;
+    margin: 5px auto;
+}
+
+
+.select-paciente {
+    width: 260px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #c7d8ea;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fafdff 0%, #edf5fb 100%);
+    color: #1f4767;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 11px 36px 11px 12px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.select-paciente:hover {
+    border-color: #8eb0d6;
+}
+
+.select-paciente:focus {
+    outline: none;
+    border-color: #5f8dc0;
+    box-shadow: 0 0 0 3px rgba(95, 141, 192, 0.2);
+    transform: translateY(-1px);
+}
+
+.select-paciente:required:invalid {
+    color: #5b6f81;
+    font-weight: 500;
 }
