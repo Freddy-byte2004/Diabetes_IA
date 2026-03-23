@@ -45,7 +45,7 @@ function VerificarCodigo() {
         sessionStorage.removeItem("correo_verificado");
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 2500);
       } else if (res.status >= 400 && res.status < 500) {
         setTipoMensaje("error");

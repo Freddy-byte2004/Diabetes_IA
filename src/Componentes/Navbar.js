@@ -17,7 +17,7 @@ function Navbar() {
               <div className="Historial"><Link to='/historial'><div className="icono-navbar"><AiFillClockCircle/></div><div className="texto-navbar">Historial</div></Link></div>
               <div className="Perfil"><Link to='/perfil'><div className="icono-navbar"><AiFillProfile/></div><div className="texto-navbar">Perfil</div></Link></div>
                               <div className="Pacientes"><Link to='/pacientes'><div className="icono-navbar"><AiOutlineTeam/></div><div className="texto-navbar">Pacientes</div></Link></div>
-              <div className="CerrarSesion" onClick={cerrarSesion}><Link to='/'><div className="icono-navbar"><AiFillCloseCircle/></div><div className="texto-navbar">Cerrar Sesión</div></Link></div>
+              <div className="CerrarSesion" onClick={cerrarSesion}><Link to='/login'><div className="icono-navbar"><AiFillCloseCircle/></div><div className="texto-navbar">Cerrar Sesión</div></Link></div>
             </div>
         </nav>
     )

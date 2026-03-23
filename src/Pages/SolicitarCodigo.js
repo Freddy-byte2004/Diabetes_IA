@@ -73,7 +73,7 @@ function SolicitarCodigo() {
       </div>
       <button type="submit" className="boton-codigo">Enviar código</button>
     </form>
-    <div className="regresar-login" onClick={() => navigate("/")}>
+    <div className="regresar-login" onClick={() => navigate("/login")}>
       <p>
         ¿Recordaste tu contraseña? Regresar al login
       </p>

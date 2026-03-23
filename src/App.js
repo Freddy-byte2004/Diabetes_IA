@@ -6,6 +6,7 @@ import Perfil from './Pages/Perfil';
 import PrivateRoute from './Componentes/privateRoute';
 import Historial from './Pages/Historial';
 import Pacientes from './Pages/Pacientes';
+import Landing from './Pages/Landing';
 
 import SolicitarCodigo from './Pages/SolicitarCodigo';
 import VerificarCodigo from './Pages/VerificarCodigo';
@@ -13,7 +14,8 @@ import VerificarCodigo from './Pages/VerificarCodigo';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<UsuarioPrincipal />} />
       <Route path="/registro" element={<RegistroUsuario />} />
         <Route path="/solicitar-codigo" element={<SolicitarCodigo />} />

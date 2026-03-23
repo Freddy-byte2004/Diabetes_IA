@@ -124,7 +124,7 @@ return(
             
         </div>
         <div className='pie'>
-          <div className='Olvido-contrasena'><Link to='/'>¿Ya tienes una cuenta? Ingresa ahora mismo</Link></div>  
+          <div className='Olvido-contrasena'><Link to='/login'>¿Ya tienes una cuenta? Ingresa ahora mismo</Link></div>  
             
         </div>
     </div>
