@@ -1254,6 +1254,44 @@ p {
   }
 }
 
+.landing-page.is-low-perf .landing-bg-layer::before,
+.landing-page.is-low-perf .landing-bg-layer::after,
+.landing-page.is-low-perf .landing-brand-logo--watermark,
+.landing-page.is-low-perf .landing-awareness-bubble,
+.landing-page.is-low-perf .landing-about-bubble {
+  animation: none !important;
+}
+
+.landing-page.is-low-perf .landing-bg-layer::before {
+  filter: none;
+  opacity: 0.62;
+}
+
+.landing-page.is-low-perf .landing-blob {
+  filter: blur(34px);
+  mix-blend-mode: normal;
+  opacity: 0.5;
+}
+
+.landing-page.is-low-perf .landing-status-card,
+.landing-page.is-low-perf .landing-hero-panel,
+.landing-page.is-low-perf .landing-awareness-card,
+.landing-page.is-low-perf .landing-process-card,
+.landing-page.is-low-perf .landing-mission-card,
+.landing-page.is-low-perf .landing-mission-pillar,
+.landing-page.is-low-perf .landing-campaign-box,
+.landing-page.is-low-perf .landing-social-wrap {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.landing-page.is-low-perf .landing-primary-button:hover,
+.landing-page.is-low-perf .landing-secondary-button:hover,
+.landing-page.is-low-perf .landing-social-card:hover {
+  transform: none;
+  box-shadow: var(--landing-shadow-layered);
+}
+
 @keyframes landing-logo-drift {
   0% {
     transform: translateY(0px) scale(1);

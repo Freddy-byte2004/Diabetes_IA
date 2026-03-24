@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import AlertMessage from "../Componentes/AlertMessage";
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Logo from '../Logo2.jpeg';
 import '../css/recuperarContrasena.css';
 function VerificarCodigo() {
@@ -10,6 +11,7 @@ function VerificarCodigo() {
   const [correo] = useState(location.state?.correo || sessionStorage.getItem("correo_verificado") || "");
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("error");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,7 +74,23 @@ function VerificarCodigo() {
     <form onSubmit={verificar}>
      
       <div className="input-codigo">
-        <input type="password" placeholder="Ingrese la nueva contraseña" value={nuevaContrasena} onChange={(e) => setNuevaContrasena(e.target.value)} />
+        <div className="password-input-wrap">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Ingrese la nueva contraseña"
+            value={nuevaContrasena}
+            onChange={(e) => setNuevaContrasena(e.target.value)}
+          />
+          <button
+            type="button"
+            className="toggle-password-btn"
+            onClick={() => setShowPassword(s => !s)}
+            aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          >
+            {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+          </button>
+        </div>
       </div>
       
       <button type="submit" className="boton-codigo">Enviar</button>

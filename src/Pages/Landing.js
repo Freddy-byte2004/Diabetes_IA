@@ -43,12 +43,12 @@ function SectionEyebrow({ children }) {
     return <span className="landing-eyebrow">{children}</span>;
 }
 
-function ProcessCard({ icon, title, description, meta }) {
+function ProcessCard({ icon, title, description, meta, disableHover = false }) {
     return (
         <motion.article
             className="landing-process-card"
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={disableHover ? undefined : { y: -8, scale: 1.02 }}
+            transition={disableHover ? undefined : { duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         >
             <div className="landing-process-icon">{icon}</div>
             <h3>{title}</h3>
@@ -58,15 +58,15 @@ function ProcessCard({ icon, title, description, meta }) {
     );
 }
 
-function SocialLinkCard({ href, label, icon, description }) {
+function SocialLinkCard({ href, label, icon, description, disableHover = false }) {
     return (
         <motion.a
             href={href}
             target="_blank"
             rel="noreferrer"
             className="landing-social-card"
-            whileHover={{ y: -5, scale: 1.01 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={disableHover ? undefined : { y: -5, scale: 1.01 }}
+            transition={disableHover ? undefined : { duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         >
             <div className="landing-social-icon">{icon}</div>
             <div>
@@ -79,6 +79,7 @@ function SocialLinkCard({ href, label, icon, description }) {
 
 function Landing() {
     const reduceMotion = useReducedMotion();
+    const [isLowPerf, setIsLowPerf] = useState(false);
     const [screeningState, setScreeningState] = useState('idle');
     const [resultText, setResultText] = useState('Simulación lista para mostrar una probabilidad orientativa en menos de 5 minutos.');
     const timeoutRef = useRef(null);
@@ -103,12 +104,27 @@ function Landing() {
     ];
 
     useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+        const lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+
+        setIsLowPerf(coarsePointer || reduced || lowMemory || lowCpu);
+    }, []);
+
+    useEffect(() => {
         return () => {
             if (timeoutRef.current) {
                 window.clearTimeout(timeoutRef.current);
             }
         };
     }, []);
+
+    const performanceMode = reduceMotion || isLowPerf;
 
     const handleScreeningDemo = () => {
         if (timeoutRef.current) {
@@ -168,14 +184,14 @@ function Landing() {
     ];
 
     return (
-        <main className="landing-page">
+        <main className={`landing-page${performanceMode ? ' is-low-perf' : ''}`}>
             <div className="landing-bg-layer" aria-hidden="true">
                 {blobs.map((blob) => (
                     <motion.span
                         key={blob.className}
                         className={`landing-blob ${blob.className}`}
-                        animate={reduceMotion ? { opacity: 0.55 } : blob.animate}
-                        transition={{ duration: blob.duration, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                        animate={performanceMode ? { opacity: 0.5 } : blob.animate}
+                        transition={performanceMode ? { duration: 0 } : { duration: blob.duration, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
                     />
                 ))}
             </div>
@@ -194,9 +210,9 @@ function Landing() {
                                 type="button"
                                 className="landing-primary-button"
                                 onClick={handleScreeningDemo}
-                                whileHover={{ y: -3, scale: 1.01 }}
+                                whileHover={performanceMode ? undefined : { y: -3, scale: 1.01 }}
                                 whileTap={{ scale: 0.98 }}
-                                transition={{ duration: 0.2 }}
+                                transition={performanceMode ? undefined : { duration: 0.2 }}
                             >
                                 Probar Tamizaje
                                 <FaArrowRight />
@@ -302,7 +318,7 @@ function Landing() {
                     <div className="landing-process-grid">
                         {processSteps.map((step, index) => (
                             <Reveal key={step.title} className={step.cardClass} delay={index * 120}>
-                                <ProcessCard icon={step.icon} title={step.title} description={step.description} meta={step.meta} />
+                                <ProcessCard icon={step.icon} title={step.title} description={step.description} meta={step.meta} disableHover={performanceMode} />
                             </Reveal>
                         ))}
                     </div>
@@ -332,14 +348,14 @@ function Landing() {
                                         <div className="landing-mission-pillar-head">
                                             <motion.span
                                                 className="landing-mission-icon"
-                                                whileHover={reduceMotion ? {} : { rotate: [0, -8, 6, 0], scale: 1.1 }}
+                                                whileHover={performanceMode ? undefined : { rotate: [0, -8, 6, 0], scale: 1.1 }}
                                                 animate={
-                                                    reduceMotion
+                                                    performanceMode
                                                         ? undefined
                                                         : { y: [0, -3, 0], rotate: [0, -3, 3, 0], scale: [1, 1.03, 1] }
                                                 }
                                                 transition={
-                                                    reduceMotion
+                                                    performanceMode
                                                         ? undefined
                                                         : {
                                                               duration: 2.6,
@@ -359,7 +375,7 @@ function Landing() {
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true, amount: 0.3 }}
                                             transition={{ duration: reduceMotion ? 0.28 : 0.5, delay: 0.03 * (index + 1), ease: [0.22, 1, 0.36, 1] }}
-                                            whileHover={reduceMotion ? {} : { x: 2 }}
+                                            whileHover={performanceMode ? undefined : { x: 2 }}
                                         >
                                             {pillar.text}
                                         </motion.p>
@@ -381,7 +397,7 @@ function Landing() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.35 }}
                                 transition={{ duration: reduceMotion ? 0.3 : 0.5, delay: 0.09, ease: [0.22, 1, 0.36, 1] }}
-                                whileHover={reduceMotion ? {} : { x: 3 }}
+                                whileHover={performanceMode ? undefined : { x: 3 }}
                             >
                                 Este prototipo no sustituye el diagnóstico clínico. Su objetivo es fortalecer la detección temprana y la concientización.
                             </motion.p>
@@ -393,7 +409,7 @@ function Landing() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.35 }}
                             transition={{ duration: reduceMotion ? 0.3 : 0.52, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-                            whileHover={reduceMotion ? {} : { x: 3 }}
+                            whileHover={performanceMode ? undefined : { x: 3 }}
                         >
                             Proporcionar un prototipo académico con margen de mejora que ayude al tamizaje de esta enfermedad, asegurando que sea una herramienta accesible y rápida.
                         </motion.p>
@@ -435,6 +451,7 @@ function Landing() {
                                         href="https://www.instagram.com/diabetes_ia?igsh=MWZlM3M1b3RnMGVkMw=="
                                         label="Instagram"
                                         icon={<FaInstagram />}
+                                        disableHover={performanceMode}
                                         description="Contenido visual de campaña, comunidad y crecimiento."
                                     />
                                 </Reveal>
@@ -443,6 +460,7 @@ function Landing() {
                                         href="https://www.facebook.com/"
                                         label="Facebook"
                                         icon={<FaFacebookF />}
+                                        disableHover={performanceMode}
                                         description="Difusión de publicaciones educativas y mensajes clave para una audiencia más amplia."
                                     />
                                 </Reveal>

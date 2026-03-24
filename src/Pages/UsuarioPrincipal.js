@@ -16,19 +16,39 @@ function UsuarioPrincipal(){
     const Fecha_de_analisis= hoy.toISOString().split('T')[0];
     const [pacientes, setPacientes] = useState([]);
     const [id_paciente, setId_paciente] = useState('');
-    const [n_embarazos, setN_embarazos] = useState();
-    const [indice_glucosa, setIndice_glucosa] = useState();
-    const [presion_arterial, setPresion_arterial] = useState();
-    const [grosor_piel, setGrosor_piel] = useState();
-    const [nivel_insulina, setNivel_insulina] = useState();
-    const [indice_masa_corporal, setIndice_masa_corporal] = useState();
-    const [herencia_diabetica, setHerencia_diabetica] = useState();
-    const [edad, setEdad] = useState();
+    const [n_embarazos, setN_embarazos] = useState('');
+    const [indice_glucosa, setIndice_glucosa] = useState('');
+    const [presion_arterial, setPresion_arterial] = useState('');
+    const [grosor_piel, setGrosor_piel] = useState('');
+    const [nivel_insulina, setNivel_insulina] = useState('');
+    const [indice_masa_corporal, setIndice_masa_corporal] = useState('');
+    const [herencia_diabetica, setHerencia_diabetica] = useState('');
+    const [edad, setEdad] = useState('');
     const [probabilidad_mensaje, setProbabilidad_mensaje] = useState(0);
     const [mensaje, setMensaje] = useState(''); 
     
     const [typeMessage,setTypeMessage]= useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    function setNumeroValidationMessage(event) {
+        const { validity } = event.target;
+
+        if (validity.valueMissing) {
+            event.target.setCustomValidity('Completa este campo');
+            return;
+        }
+
+        if (validity.badInput) {
+            event.target.setCustomValidity('Ingresa un valor numerico');
+            return;
+        }
+
+        event.target.setCustomValidity('');
+    }
+
+    function clearValidationMessage(event) {
+        event.target.setCustomValidity('');
+    }
     function handleN_embarazosChange(event) {
         setN_embarazos(event.target.value);
        
@@ -111,6 +131,19 @@ function UsuarioPrincipal(){
 
     async function onSubmit(event) {  
         event.preventDefault();
+
+        if (!id_paciente || n_embarazos === '' || indice_glucosa === '' || presion_arterial === '' || grosor_piel === '' || nivel_insulina === '' || indice_masa_corporal === '' || herencia_diabetica === '' || edad === '') {
+            setMensaje('Completa todos los campos numericos');
+            setTypeMessage('error');
+            return;
+        }
+
+        if ([n_embarazos, indice_glucosa, presion_arterial, grosor_piel, nivel_insulina, indice_masa_corporal, herencia_diabetica, edad].some((valor) => Number.isNaN(Number(valor)))) {
+            setMensaje('Ingresa valores numericos validos en todos los campos');
+            setTypeMessage('error');
+            return;
+        }
+
         setIsSubmitting(true);
       
       
@@ -194,35 +227,35 @@ function UsuarioPrincipal(){
                                 </select>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Indice de glucosa" value={indice_glucosa} onChange={handleIndiceGlucosaChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>mg/dL</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>mmHg</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Grosor de la piel" value={grosor_piel} onChange={handleGrosorPielChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>mm</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Nivel de insulina" value={nivel_insulina} onChange={handleNivelInsulinaChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>mu/mL</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Indice de masa corporal" value={indice_masa_corporal} onChange={handleIndiceMasaCorporalChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>kg/m2</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Edad" value={edad} onChange={handleEdadChange} className='input-field input-con-unidad' />
+                                <input type="number" placeholder="Edad" value={edad} onChange={handleEdadChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 
                             </div>
                             <input type="submit" value="Enviar" className="boton-enviar" disabled={isSubmitting}/>
