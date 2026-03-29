@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { changePassword } from "../services/authService";
 import { useNavigate, useLocation } from "react-router-dom";
 import AlertMessage from "../Componentes/AlertMessage";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -29,16 +29,7 @@ function VerificarCodigo() {
     setMensaje("");
 
     try {
-      const res = await axios.post(
-        "https://diabetes-ia-backend-1.onrender.com/api/auth/change-password",
-        {
-          usuario: correo,
-          nuevaContrasena: nuevaContrasena
-        },
-        {
-          validateStatus: (status) => status < 500
-        }
-      );
+      const res = await changePassword({ usuario: correo, nuevaContrasena });
 
       if (res.status === 200 && res.data?.message === "Contraseña cambiada exitosamente") {
         setTipoMensaje("success");

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import "../css/editarDatos.css";
-import axios from "axios";
+import api from "../api/axios";
 import AlertMessage from "./AlertMessage";
 
 
@@ -10,6 +10,7 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
   const [formData, setFormData] = useState(usuario);
   const [newCode, setNewCode] = useState(null);
   const [showCodeDialog, setShowCodeDialog] = useState(false);
+  
   const codeDialog = showCodeDialog && newCode?.codigo_unico
     ? createPortal(
         <div className="code-dialog-overlay">
@@ -35,11 +36,11 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   axios.put(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${usuario.id_usuario}`, {
-    nombre: formData.nombre,       
-  telefono: formData.telefono,
-  direccion: formData.direccion
-})
+  api.put(`/usuario/${usuario.id_usuario}`, {
+    nombre: formData.nombre,
+    telefono: formData.telefono,
+    direccion: formData.direccion
+  })
 .then(response => {
   console.log("Datos actualizados:", response.data);
   onSave(response.data);
@@ -53,7 +54,7 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
 async function generarCodigo() {
   try{
     const usuario = localStorage.getItem("correo_usuario");
-    const response = await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/new-code',{usuario});
+    const response = await api.post('/auth/new-code', { usuario });
     setNewCode(response.data);
     setShowCodeDialog(Boolean(response.data?.codigo_unico));
   

@@ -3,13 +3,15 @@
     import {Navbar} from "../Componentes/Navbar"
     import "../css/perfil.css"
     import { useCallback, useEffect, useState } from "react";
-    import axios from "axios";
+    import { getByCorreo, getById } from "../services/usuarioService";
 
     function Perfil(){
     const [datos, setDatos]= useState([]);
     const [loading, setLoading] = useState(true);
 
     const correo= localStorage.getItem("correo_usuario");
+
+
 
         const obtenerDatos=useCallback(async ()=>{
             setLoading(true);
@@ -19,10 +21,13 @@
                     return;
                 }
 
-                const usuarioPorCorreo = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/correo/${correo}`);
-                const usuarioRespuesta = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/usuario/${usuarioPorCorreo.data.id_usuario}`);
+                const usuarioPorCorreo = await getByCorreo(correo);
+                if (!usuarioPorCorreo || !usuarioPorCorreo.id_usuario) {
+                  setDatos([]);
+                  return;
+                }
 
-                const usuarioData= usuarioRespuesta.data[0];
+                const usuarioData = await getById(usuarioPorCorreo.id_usuario);
                 const formattedData= [{
                     id_usuario: usuarioData.id_usuario,
                     nombre: usuarioData.nombre,

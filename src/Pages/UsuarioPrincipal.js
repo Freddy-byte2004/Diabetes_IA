@@ -4,7 +4,8 @@ import {Navbar} from '../Componentes/Navbar';
 import {ProbabilityDonut} from '../Componentes/barraDonat.js';
 import { Barra } from '../Componentes/barra.js';
 import { useState } from 'react';
-import axios from 'axios';
+import { getAll as getAllPacientes } from '../services/pacienteService';
+import { createAnalysis, getProbability } from '../services/analisisService';
 import { useEffect } from 'react';
 import AlertMessage from '../Componentes/AlertMessage.js';
 
@@ -29,6 +30,8 @@ function UsuarioPrincipal(){
     
     const [typeMessage,setTypeMessage]= useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+
 
     function setNumeroValidationMessage(event) {
         const { validity } = event.target;
@@ -89,8 +92,7 @@ function UsuarioPrincipal(){
      useEffect(() => {
         async function cargarDatosIniciales() {
             try {
-                const pacientesResponse = await axios.get('https://diabetes-ia-backend-1.onrender.com/api/paciente');
-                const pacientesData = Array.isArray(pacientesResponse.data) ? pacientesResponse.data : [];
+                const pacientesData = await getAllPacientes();
                 setPacientes(pacientesData);
             } catch (err) {
                 console.error(err);
@@ -109,10 +111,10 @@ function UsuarioPrincipal(){
             }
 
             try {
-                const response = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_paciente}`);
+                const response = await getProbability(id_paciente);
 
-                if (response.data && response.data.probabilidad_diabetes !== undefined) {
-                    const probabilidadPaciente = response.data.probabilidad_diabetes;
+                if (response && response.probabilidad_diabetes !== undefined) {
+                    const probabilidadPaciente = response.probabilidad_diabetes;
                     setProbability(probabilidadPaciente);
                     setProbabilidad_mensaje(probabilidadPaciente * 100);
                 } else {
@@ -159,7 +161,7 @@ function UsuarioPrincipal(){
         }
 
         try {
-            const res = await axios.post('https://diabetes-ia-backend-1.onrender.com/api/analisis', {
+            const res = await createAnalysis({
            
                 id_paciente: Number(id_paciente),
                 glucosa: Number(indice_glucosa),
@@ -172,9 +174,9 @@ function UsuarioPrincipal(){
                 edad: Number(edad),
                 fecha_de_analisis: Fecha_de_analisis
             });
-            const nuevaProbabilidad = await axios.get(`https://diabetes-ia-backend-1.onrender.com/api/analisisProbabilidad/${id_paciente}`);
-            if (nuevaProbabilidad.data && nuevaProbabilidad.data.probabilidad_diabetes !== undefined) {
-                const Probabilidad = nuevaProbabilidad.data.probabilidad_diabetes;
+            const nuevaProbabilidad = await getProbability(id_paciente);
+            if (nuevaProbabilidad && nuevaProbabilidad.probabilidad_diabetes !== undefined) {
+                const Probabilidad = nuevaProbabilidad.probabilidad_diabetes;
                 setProbability(Probabilidad);
                 setProbabilidad_mensaje(Probabilidad * 100);
                 setMensaje("Análisis realizado con éxito");

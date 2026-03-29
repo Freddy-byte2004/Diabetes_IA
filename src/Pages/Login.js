@@ -1,7 +1,7 @@
 import Logo from '../Logo2.jpeg';
 import '../css/login.css';
 import { useState } from 'react';
-import axios from 'axios';
+import { login } from '../services/authService';
 import { AiFillMail, AiFillLock, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';  
@@ -56,20 +56,17 @@ function Login() {
   event.preventDefault();
 
     try{
-     const  res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/login', {
-  usuario: correo,
-  contrasena: contraseña
-});
- 
-      console.log("respuesta del backend", res.data.token);
-    
-      if(res.data.message === "Inicio de sesión exitoso"){
+     const resData = await login({ usuario: correo, contrasena: contraseña });
+
+      console.log('respuesta del backend', resData.token);
+
+      if (resData.message === 'Inicio de sesión exitoso') {
         localStorage.setItem('correo_usuario', correo);
-        localStorage.setItem('token', res.data.token);
-        navigate("/dashboard");
+        localStorage.setItem('token', resData.token);
+        navigate('/dashboard');
       } else {
-        console.log("Error de autenticación:", res.data.message);
-        setError(res.data.message?.trim() || 'Credenciales incorrectas');
+        console.log('Error de autenticación:', resData.message);
+        setError(resData.message?.trim() || 'Credenciales incorrectas');
       }
     }catch(err){
        if (err.response && err.response.data && err.response.data.message) {

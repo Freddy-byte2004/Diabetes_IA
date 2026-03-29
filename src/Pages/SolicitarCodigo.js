@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { verifyCode } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../Componentes/AlertMessage";
 import Logo from '../Logo2.jpeg';
@@ -21,16 +21,7 @@ function SolicitarCodigo() {
     setMensaje("");
 
     try {
-      const res = await axios.post(
-        "https://diabetes-ia-backend-1.onrender.com/api/auth/verify-code",
-        {
-          usuario: correo,
-          codigo: codigo
-        },
-        {
-          validateStatus: (status) => status < 500
-        }
-      );
+      const res = await verifyCode({ usuario: correo, codigo });
 
       if (res.status === 200 && res.data?.message === "Código válido") {
         setTipoMensaje("success");

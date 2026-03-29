@@ -1,7 +1,7 @@
 import Logo from '../Logo2.jpeg';
 import '../css/login.css';
 import { useState } from 'react';
-import axios from 'axios';
+import { changePassword } from '../services/authService';
 import { AiFillMail, AiFillLock } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -37,18 +37,20 @@ function OlvidoContrasena() {
   }
 
     try{
-     const  res= await axios.put('', {
-     } );
+     const res = await changePassword({ usuario: correo, nuevaContrasena: contraseña });
 
-      console.log("respuesta del backend", res.data.message);
-      if(res.data.message === "Usuario registrado exitosamente"){
-        alert("cambio de contraseña exitoso");
+      console.log('respuesta del backend', res.data?.message || res.message || res);
+      if (res.status === 200 && res.data?.message === 'Contraseña cambiada exitosamente') {
+        alert('Cambio de contraseña exitoso');
         navigate('/');
+      } else if (res.status >= 400 && res.status < 500) {
+        alert(res.data?.message || 'Credenciales incorrectas');
       } else {
-        alert("Credenciales incorrectas")
+        alert('Error al cambiar la contraseña');
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
+      alert('Error al conectar con el servidor');
     }
   }
 

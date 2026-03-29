@@ -1,7 +1,7 @@
 import Logo from '../Logo2.jpeg';
 import '../css/login.css';
 import { useState } from 'react';
-import axios from 'axios';
+import { register } from '../services/authService';
 import { AiFillMail, AiFillLock, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -120,20 +120,16 @@ function RegistroUsuario() {
   }
 
     try{
-     const  res= await axios.post('https://diabetes-ia-backend-1.onrender.com/api/auth/register', {
-  usuario: correo,
-  contrasena: contraseña,
-  nombre: nombre,
-});
+     const resData = await register({ usuario: correo, contrasena: contraseña, nombre });
 
-      console.log("respuesta del backend", res.data.message);
-      if(res.data.message === "Usuario registrado exitosamente"){
+      console.log('respuesta del backend', resData.message);
+      if (resData.message === 'Usuario registrado exitosamente') {
        setError('');
-       setCodigoUnico(res.data.codigo_unico || 'No disponible');
+       setCodigoUnico(resData.codigo_unico || 'No disponible');
        setMostrarDialogoCodigo(true);
       } else {
-        console.log("Error en el registro:", res.data.message);
-        setError(res.data.message?.trim() || 'Error en el registro');
+        console.log('Error en el registro:', resData.message);
+        setError(resData.message?.trim() || 'Error en el registro');
       }
     }catch(err){
       console.log(err);

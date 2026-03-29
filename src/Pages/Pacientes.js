@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getAll, getById, createPatient, updatePatient, deletePatient } from "../services/pacienteService";
 import { Navbar } from "../Componentes/Navbar";
 import AlertMessage from "../Componentes/AlertMessage";
 import "../css/pacientes.css";
 
-const API_URL = "https://diabetes-ia-backend-1.onrender.com/api/paciente";
 
 const pacienteInicial = {
 	nombre: "",
@@ -55,11 +54,13 @@ function Pacientes() {
 	const [mensaje, setMensaje] = useState("");
 	const [tipoMensaje, setTipoMensaje] = useState("success");
 
+
+
 	const cargarPacientes = async () => {
 		setLoading(true);
 		try {
-			const response = await axios.get(API_URL);
-			setPacientes(Array.isArray(response.data) ? response.data : []);
+			const pacientesData = await getAll();
+			setPacientes(Array.isArray(pacientesData) ? pacientesData : []);
 		} catch (error) {
 			console.error("Error al cargar pacientes:", error);
 			setPacientes([]);
@@ -81,10 +82,10 @@ function Pacientes() {
 
 	const abrirEdicion = async (idPaciente) => {
 		try {
-			const response = await axios.get(`${API_URL}/${idPaciente}`);
-			const paciente = Array.isArray(response.data)
-				? (response.data[0] || {})
-				: (response.data || {});
+			const pacienteRes = await getById(idPaciente);
+			const paciente = Array.isArray(pacienteRes)
+				? (pacienteRes[0] || {})
+				: (pacienteRes || {});
 
 			setPacienteEditando(paciente);
 			setModalAbierto(true);
@@ -142,10 +143,10 @@ function Pacientes() {
 			};
 
 			if (pacienteEditando?.id_paciente) {
-				await axios.put(`${API_URL}/${pacienteEditando.id_paciente}`, payload);
+				await updatePatient(pacienteEditando.id_paciente, payload);
 				setMensaje("Paciente actualizado correctamente");
 			} else {
-				await axios.post(API_URL, payload);
+				await createPatient(payload);
 				setMensaje("Paciente creado correctamente");
 			}
 
@@ -174,7 +175,7 @@ function Pacientes() {
 
 		setEliminandoId(idPaciente);
 		try {
-			await axios.delete(`${API_URL}/${idPaciente}`);
+			await deletePatient(idPaciente);
 			await cargarPacientes();
 			setMensaje("Paciente eliminado correctamente");
 			setTipoMensaje("success");
