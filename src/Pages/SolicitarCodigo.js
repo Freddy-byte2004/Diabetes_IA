@@ -9,6 +9,7 @@ function SolicitarCodigo() {
   const [codigo, setCodigo] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("error");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,16 +20,14 @@ function SolicitarCodigo() {
   async function enviarCodigo(e) {
     e.preventDefault();
     setMensaje("");
-
+    setIsSubmitting(true);
     try {
       const res = await verifyCode({ usuario: correo, codigo });
-
       if (res.status === 200 && res.data?.message === "Código válido") {
         setTipoMensaje("success");
         setMensaje("Codigo correcto. Redirigiendo...");
         sessionStorage.setItem("codigo_verificado", "true");
         sessionStorage.setItem("correo_verificado", correo);
-
         setTimeout(() => {
           navigate("/verificar-codigo", { state: { correo } });
         }, 2500);
@@ -41,9 +40,10 @@ function SolicitarCodigo() {
       }
     } catch (err) {
       console.error(err);
-
       setTipoMensaje("error");
       setMensaje("Error al enviar codigo");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -56,13 +56,19 @@ function SolicitarCodigo() {
     </div>
     <div className="titulo-codigo"><h1>Recuperar contraseña</h1></div>
     <form onSubmit={enviarCodigo}>
+      {isSubmitting && (
+        <div className="overlay-carga-prediccion" role="status" aria-live="polite">
+          <div className="spinner-celeste-prediccion" aria-hidden="true"></div>
+          <p>Verificando código...</p>
+        </div>
+      )}
       <div className="input-codigo">
-        <input type="text" placeholder="Ingrese su correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+        <input type="text" placeholder="Ingrese su correo" value={correo} onChange={(e) => setCorreo(e.target.value)} disabled={isSubmitting} />
       </div>
       <div className="input-codigo">
-        <input type="text" placeholder="Ingrese su codigo unico" value={codigo} onChange={(e) => setCodigo(e.target.value)} />
+        <input type="text" placeholder="Ingrese su codigo unico" value={codigo} onChange={(e) => setCodigo(e.target.value)} disabled={isSubmitting} />
       </div>
-      <button type="submit" className="boton-codigo">Enviar código</button>
+      <button type="submit" className="boton-codigo" disabled={isSubmitting}>{isSubmitting ? "Verificando..." : "Enviar código"}</button>
     </form>
     <div className="regresar-login" onClick={() => navigate("/login")}>
       <p>

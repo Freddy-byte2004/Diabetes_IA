@@ -92,7 +92,8 @@ function UsuarioPrincipal(){
      useEffect(() => {
         async function cargarDatosIniciales() {
             try {
-                const pacientesData = await getAllPacientes();
+                const id_institucion = localStorage.getItem('id_institucion');
+                const pacientesData = await getAllPacientes(id_institucion);
                 setPacientes(pacientesData);
             } catch (err) {
                 console.error(err);
@@ -172,7 +173,8 @@ function UsuarioPrincipal(){
                 indice_de_masa_corporal: Number(indice_masa_corporal),
                 funcion_de_herencia: Number(herencia_diabetica),
                 edad: Number(edad),
-                fecha_de_analisis: Fecha_de_analisis
+                fecha_de_analisis: Fecha_de_analisis,
+              
             });
             const nuevaProbabilidad = await getProbability(id_paciente);
             if (nuevaProbabilidad && nuevaProbabilidad.probabilidad_diabetes !== undefined) {

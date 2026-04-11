@@ -12,6 +12,7 @@ function VerificarCodigo() {
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("error");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,16 +28,14 @@ function VerificarCodigo() {
   async function verificar(e) {
     e.preventDefault();
     setMensaje("");
-
+    setIsSubmitting(true);
     try {
       const res = await changePassword({ usuario: correo, nuevaContrasena });
-
       if (res.status === 200 && res.data?.message === "Contraseña cambiada exitosamente") {
         setTipoMensaje("success");
         setMensaje("Contraseña cambiada exitosamente. Redirigiendo...");
         sessionStorage.removeItem("codigo_verificado");
         sessionStorage.removeItem("correo_verificado");
-
         setTimeout(() => {
           navigate("/login");
         }, 2500);
@@ -51,6 +50,8 @@ function VerificarCodigo() {
       console.error(err);
       setTipoMensaje("error");
       setMensaje("Error al verificar codigo");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -63,7 +64,12 @@ function VerificarCodigo() {
     </div>
     <div className="titulo-codigo"><h1>Cambiar contraseña</h1></div>
     <form onSubmit={verificar}>
-     
+      {isSubmitting && (
+        <div className="overlay-carga-prediccion" role="status" aria-live="polite">
+          <div className="spinner-celeste-prediccion" aria-hidden="true"></div>
+          <p>Cambiando contraseña...</p>
+        </div>
+      )}
       <div className="input-codigo">
         <div className="password-input-wrap">
           <input
@@ -71,6 +77,7 @@ function VerificarCodigo() {
             placeholder="Ingrese la nueva contraseña"
             value={nuevaContrasena}
             onChange={(e) => setNuevaContrasena(e.target.value)}
+            disabled={isSubmitting}
           />
           <button
             type="button"
@@ -78,13 +85,13 @@ function VerificarCodigo() {
             onClick={() => setShowPassword(s => !s)}
             aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            disabled={isSubmitting}
           >
             {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
           </button>
         </div>
       </div>
-      
-      <button type="submit" className="boton-codigo">Enviar</button>
+      <button type="submit" className="boton-codigo" disabled={isSubmitting}>{isSubmitting ? "Cambiando..." : "Enviar"}</button>
     </form>
   </div>
 </div>

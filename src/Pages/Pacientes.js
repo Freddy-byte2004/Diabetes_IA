@@ -58,8 +58,9 @@ function Pacientes() {
 
 	const cargarPacientes = async () => {
 		setLoading(true);
+		const idInstitucion = localStorage.getItem("id_institucion");
 		try {
-			const pacientesData = await getAll();
+			const pacientesData = await getAll(idInstitucion);
 			setPacientes(Array.isArray(pacientesData) ? pacientesData : []);
 		} catch (error) {
 			console.error("Error al cargar pacientes:", error);
@@ -146,8 +147,18 @@ function Pacientes() {
 				await updatePatient(pacienteEditando.id_paciente, payload);
 				setMensaje("Paciente actualizado correctamente");
 			} else {
-				await createPatient(payload);
-				setMensaje("Paciente creado correctamente");
+							 const idInstitucion = localStorage.getItem("id_institucion");
+							 const idInstitucionNum = Number(idInstitucion);
+							 if (!idInstitucion || isNaN(idInstitucionNum) || idInstitucionNum <= 0) {
+								 setMensaje("No se encontró una institución válida para el usuario. Por favor, vuelve a iniciar sesión.");
+								 setTipoMensaje("error");
+								 return;
+							 }
+							 await createPatient({
+								 ...payload,
+								 id_institucion: idInstitucionNum
+							 });
+							 setMensaje("Paciente creado correctamente");
 			}
 
 			await cargarPacientes();

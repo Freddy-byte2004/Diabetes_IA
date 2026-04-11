@@ -115,7 +115,8 @@ useEffect(()=>{
 useEffect(() => {
   const cargarPacientes = async () => {
     try {
-      const pacientesData = await getAllPacientes();
+      const idInstitucion = localStorage.getItem('id_institucion');
+      const pacientesData = await getAllPacientes(idInstitucion);
       setPacientes(pacientesData);
 
       if (!pacientesData.length) {

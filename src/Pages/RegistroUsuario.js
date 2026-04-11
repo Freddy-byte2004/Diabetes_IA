@@ -19,6 +19,7 @@ function RegistroUsuario() {
   const [mostrarDialogoCodigo, setMostrarDialogoCodigo] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function setCorreoValidationMessage(event) {
     const { validity } = event.target;
@@ -96,44 +97,77 @@ function RegistroUsuario() {
   }
 
   async function onSubmit(event) {
-  event.preventDefault();
-  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    event.preventDefault();
+    setIsSubmitting(true);
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-   if (!correo || !contraseña || !confirmarContraseña || !nombre) {
-    setError("Por favor, complete todos los campos");
-    return;
-  }
+    if (!correo || !contraseña || !confirmarContraseña || !nombre) {
+      setError("Por favor, complete todos los campos");
+      setIsSubmitting(false);
+      return;
+    }
 
-  if (!gmailRegex.test(correo)) {
-    setError('Ingresa un correo valido con formato @gmail.com');
-    return;
-  }
+    if (!gmailRegex.test(correo)) {
+      setError('Ingresa un correo valido con formato @gmail.com');
+      setIsSubmitting(false);
+      return;
+    }
 
-  if (contraseña.length <= 6) {
-    setError('La contrasena debe tener mas de 6 caracteres');
-    return;
-  }
 
-  if(contraseña !== confirmarContraseña){
-    setError("Las contraseñas no coinciden");
-    return;
-  }
+    // Validación: más de 6 caracteres, al menos un número y un carácter especial
+    const regexNumero = /[0-9]/;
+    const regexEspecial = /[!@#$%^&*(),.?":{}|<>_\-]/;
+    const regexMayuscula = /[A-Z]/;
+    if (contraseña.length <= 6) {
+      setError('La contraseña debe tener más de 6 caracteres');
+      setIsSubmitting(false);
+      return;
+    }
+    if (!regexNumero.test(contraseña)) {
+      setError('La contraseña debe contener al menos un número');
+      setIsSubmitting(false);
+      return;
+    }
+    if (!regexEspecial.test(contraseña)) {
+      setError('La contraseña debe contener al menos un carácter especial');
+      setIsSubmitting(false);
+      return;
+    }
+    if (!regexMayuscula.test(contraseña)) {
+      setError('La contraseña debe contener al menos una letra mayúscula');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if(contraseña !== confirmarContraseña){
+      setError("Las contraseñas no coinciden");
+      setIsSubmitting(false);
+      return;
+    }
 
     try{
-     const resData = await register({ usuario: correo, contrasena: contraseña, nombre });
-
+      const resData = await register({ usuario: correo, contrasena: contraseña, nombre });
       console.log('respuesta del backend', resData.message);
       if (resData.message === 'Usuario registrado exitosamente') {
-       setError('');
-       setCodigoUnico(resData.codigo_unico || 'No disponible');
-       setMostrarDialogoCodigo(true);
+        setError('');
+        setCodigoUnico(resData.codigo_unico || 'No disponible');
+        setMostrarDialogoCodigo(true);
       } else {
         console.log('Error en el registro:', resData.message);
         setError(resData.message?.trim() || 'Error en el registro');
       }
     }catch(err){
       console.log(err);
-      setError("Error al conectar con el servidor");
+      // Si el backend responde con el mensaje específico, lo mostramos
+      if (err.response && err.response.data && err.response.data.message === 'Ya existe un usuario con ese correo') {
+        setError('Ya existe un usuario con ese correo');
+      } else if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message.trim() || "Error al conectar con el servidor");
+      } else {
+        setError("Error al conectar con el servidor");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -173,59 +207,64 @@ return(
         <div className='titulo'><h1>Registro de usuario</h1></div>
         <div className='formulario'>
             <form onSubmit={onSubmit}>
-                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese el correo' value={correo} onChange={handleCorreo} pattern={"^[a-zA-Z0-9._%+-]+@gmail\\.com$"} required onInvalid={setCorreoValidationMessage} onInput={(e) => e.target.setCustomValidity('')} /></div>
-              
-
-               <div className='input-contraseña'><AiFillLock />
-                 <div className='password-input-wrap'>
-                   <input
-                     type={showPassword ? 'text' : 'password'}
-                     placeholder='Ingrese su contraseña'
-                     value={contraseña}
-                     onChange={handleContraseña}
-                     minLength={7}
-                     required
-                     onInvalid={setContrasenaValidationMessage}
-                     onInput={(e) => e.target.setCustomValidity('')}
-                   />
-                   <button
-                     type='button'
-                     className='toggle-password-btn'
-                     onClick={() => setShowPassword(s => !s)}
-                     aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                     title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                   >
-                     {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                   </button>
-                 </div>
-               </div>
-
-               <div className='input-contraseña-confirmar'><AiFillLock />
-                 <div className='password-input-wrap'>
-                   <input
-                     type={showConfirmPassword ? 'text' : 'password'}
-                     placeholder='Confirme su contraseña'
-                     value={confirmarContraseña}
-                     onChange={handleConfirmarContraseña}
-                     required
-                     onInvalid={setConfirmarContrasenaValidationMessage}
-                     onInput={setConfirmarContrasenaValidationMessage}
-                   />
-                   <button
-                     type='button'
-                     className='toggle-password-btn'
-                     onClick={() => setShowConfirmPassword(s => !s)}
-                     aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                     title={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                   >
-                     {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                   </button>
-                 </div>
-               </div>
-               <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese el nombre de la institucion' value={nombre} onChange={handleNombre} required onInvalid={setNombreValidationMessage} onInput={(e) => e.target.setCustomValidity('')} /></div>
-  
-                 <input type="submit" value="Registrar" className='boton'/>
-               
+                {isSubmitting && (
+                  <div className="overlay-carga-prediccion" role="status" aria-live="polite">
+                    <div className="spinner-celeste-prediccion" aria-hidden="true"></div>
+                    <p>Registrando usuario...</p>
+                  </div>
+                )}
+                <div className='input-correo'><AiFillMail />  <input type="email" placeholder='Ingrese el correo' value={correo} onChange={handleCorreo} pattern={"^[a-zA-Z0-9._%+-]+@gmail\\.com$"} required onInvalid={setCorreoValidationMessage} onInput={(e) => e.target.setCustomValidity('')} disabled={isSubmitting} /></div>
+                <div className='input-contraseña'><AiFillLock />
+                  <div className='password-input-wrap'>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder='Ingrese su contraseña'
+                      value={contraseña}
+                      onChange={handleContraseña}
+                      minLength={7}
+                      required
+                      onInvalid={setContrasenaValidationMessage}
+                      onInput={(e) => e.target.setCustomValidity('')}
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type='button'
+                      className='toggle-password-btn'
+                      onClick={() => setShowPassword(s => !s)}
+                      aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      disabled={isSubmitting}
+                    >
+                      {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                    </button>
+                  </div>
+                </div>
+                <div className='input-contraseña-confirmar'><AiFillLock />
+                  <div className='password-input-wrap'>
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder='Confirme su contraseña'
+                      value={confirmarContraseña}
+                      onChange={handleConfirmarContraseña}
+                      required
+                      onInvalid={setConfirmarContrasenaValidationMessage}
+                      onInput={setConfirmarContrasenaValidationMessage}
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type='button'
+                      className='toggle-password-btn'
+                      onClick={() => setShowConfirmPassword(s => !s)}
+                      aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      title={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      disabled={isSubmitting}
+                    >
+                      {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                    </button>
+                  </div>
+                </div>
+                <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese el nombre de la institucion' value={nombre} onChange={handleNombre} required onInvalid={setNombreValidationMessage} onInput={(e) => e.target.setCustomValidity('')} disabled={isSubmitting} /></div>
+                <input type="submit" value={isSubmitting ? "Registrando..." : "Registrar"} className='boton' disabled={isSubmitting} />
             </form>
             
         </div>

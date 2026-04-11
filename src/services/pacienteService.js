@@ -1,7 +1,7 @@
 import api from '../api/axios';
 
-export async function getAll() {
-  const res = await api.get('/paciente');
+export async function getAll(id_institucion) {
+  const res = await api.get(`/paciente/institucion/${id_institucion}`);
   return Array.isArray(res.data) ? res.data : [];
 }
 
