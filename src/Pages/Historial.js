@@ -2,18 +2,19 @@
 import TablaHistorial from "../Componentes/TablaHistorial"
 import {Navbar} from "../Componentes/Navbar"
 import "../css/historial.css"
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getAll as getAllPacientes } from "../services/pacienteService";
-import { fetchFullHistorial, generateHistorialXlsBlob, getHistorialByPaciente } from "../services/historialService";
+import { fetchFullHistorial, generateHistorialXlsBlob } from "../services/historialService";
 
 function Historial(){
 const [datos, setDatos]= useState([]);
 const [nombreUsuario, setNombreUsuario] = useState('');
 const [loading, setLoading] = useState(true);
 const [pacientes, setPacientes] = useState([]);
-const [idPacienteSeleccionado, setIdPacienteSeleccionado] = useState(
-  localStorage.getItem('id_paciente_historial') || ''
-);
+const [idPacienteSeleccionado, setIdPacienteSeleccionado] = useState('');
+const [busquedaPaciente, setBusquedaPaciente] = useState('');
+const [mostrarOpcionesPaciente, setMostrarOpcionesPaciente] = useState(false);
+const contenedorBuscadorRef = useRef(null);
 const [usuarioInfo, setUsuarioInfo] = useState({
   nombre: 'Usuario',
   apellido: 'No disponible',
@@ -22,19 +23,37 @@ const [usuarioInfo, setUsuarioInfo] = useState({
   direccion: 'No disponible'
 });
 
+const pacientesFiltrados = useMemo(() => {
+  const termino = busquedaPaciente.trim().toLowerCase();
+  if (!termino) {
+    return pacientes;
+  }
 
+  return pacientes.filter((paciente) => {
+    const nombreCompleto = `${paciente.nombre || ''} ${paciente.apellido || ''}`.toLowerCase();
+    return nombreCompleto.includes(termino);
+  });
+}, [pacientes, busquedaPaciente]);
 
-const handlePacienteChange = (event) => {
-  const nuevoIdPaciente = event.target.value;
+const seleccionarPaciente = (pacienteSeleccionado) => {
+  const nuevoIdPaciente = String(pacienteSeleccionado.id_paciente || '');
+  const nombreCompleto = `${pacienteSeleccionado.nombre || ''} ${pacienteSeleccionado.apellido || ''}`.trim() || 'Usuario';
+
   setIdPacienteSeleccionado(nuevoIdPaciente);
   localStorage.setItem('id_paciente_historial', nuevoIdPaciente);
+  setNombreUsuario(nombreCompleto);
+  setBusquedaPaciente(nombreCompleto);
+  setMostrarOpcionesPaciente(false);
+};
 
-  const pacienteSeleccionado = pacientes.find(
-    (paciente) => String(paciente.id_paciente) === String(nuevoIdPaciente)
-  );
+const handleBusquedaPacienteChange = (event) => {
+  const nuevoValor = event.target.value;
+  setBusquedaPaciente(nuevoValor);
+  setMostrarOpcionesPaciente(true);
 
-  if (pacienteSeleccionado) {
-    setNombreUsuario(`${pacienteSeleccionado.nombre || ''} ${pacienteSeleccionado.apellido || ''}`.trim() || 'Usuario');
+  if (!nuevoValor.trim()) {
+    setIdPacienteSeleccionado('');
+    localStorage.removeItem('id_paciente_historial');
   }
 };
 
@@ -71,7 +90,8 @@ const obtenerDatos=useCallback(async ()=>{
         return;
       }
 
-      const { paciente, analisis } = await fetchFullHistorial(idPacienteSeleccionado);
+      const idInstitucion = localStorage.getItem('id_institucion');
+      const { paciente, analisis } = await fetchFullHistorial(idPacienteSeleccionado, idInstitucion);
 
       const pacienteObj = paciente || {};
       const nombreCompleto = `${pacienteObj.nombre || ''} ${pacienteObj.apellido || ''}`.trim();
@@ -113,36 +133,37 @@ useEffect(()=>{
 },[obtenerDatos])
 
 useEffect(() => {
+  const handleClickFuera = (event) => {
+    if (!contenedorBuscadorRef.current?.contains(event.target)) {
+      setMostrarOpcionesPaciente(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickFuera);
+  return () => {
+    document.removeEventListener('mousedown', handleClickFuera);
+  };
+}, []);
+
+useEffect(() => {
+  // Limpiar selección previa al cargar el módulo
+  localStorage.removeItem('id_paciente_historial');
   const cargarPacientes = async () => {
     try {
       const idInstitucion = localStorage.getItem('id_institucion');
       const pacientesData = await getAllPacientes(idInstitucion);
       setPacientes(pacientesData);
-
-      if (!pacientesData.length) {
-        return;
-      }
-
-      const idGuardado = localStorage.getItem('id_paciente_historial') || '';
-      const existeIdGuardado = pacientesData.some(
-        (paciente) => String(paciente.id_paciente) === String(idGuardado)
-      );
-
-      if (existeIdGuardado) {
-        setIdPacienteSeleccionado(String(idGuardado));
-      } else if (!idPacienteSeleccionado) {
-        const primerIdPaciente = String(pacientesData[0].id_paciente);
-        setIdPacienteSeleccionado(primerIdPaciente);
-        localStorage.setItem('id_paciente_historial', primerIdPaciente);
-      }
+      // No seleccionar ningún paciente por defecto
+      setIdPacienteSeleccionado('');
+      setBusquedaPaciente('');
     } catch (error) {
       console.error('Error al cargar pacientes:', error);
       setPacientes([]);
     }
   };
-
   cargarPacientes();
-}, [idPacienteSeleccionado]);
+  // eslint-disable-next-line
+}, []);
 
     return(
          <div className="historial-page">
@@ -154,19 +175,47 @@ useEffect(() => {
         <div className="historial-title-wrap">
           <div className="historial-title-select-wrap">
             <h1>Historial de consultas del paciente:</h1>
-            <select
-              value={idPacienteSeleccionado}
-              onChange={handlePacienteChange}
-              className="historial-paciente-select"
-              aria-label="Seleccionar paciente para historial"
-            >
-              <option value="">Selecciona un paciente</option>
-              {pacientes.map((paciente) => (
-                <option key={paciente.id_paciente} value={paciente.id_paciente}>
-                  {`${paciente.nombre} ${paciente.apellido}`}
-                </option>
-              ))}
-            </select>
+            <div className="historial-paciente-buscador" ref={contenedorBuscadorRef}>
+              <input
+                type="text"
+                value={busquedaPaciente}
+                onChange={handleBusquedaPacienteChange}
+                onFocus={() => setMostrarOpcionesPaciente(true)}
+                className="historial-paciente-select"
+                placeholder="Selecciona o busca un paciente"
+                aria-label="Seleccionar paciente para historial"
+                autoComplete="off"
+              />
+              {mostrarOpcionesPaciente && (
+                <ul className="historial-paciente-opciones" role="listbox">
+                  {pacientesFiltrados.length > 0 ? (
+                    pacientesFiltrados.map((paciente) => {
+                      const nombreCompleto = `${paciente.nombre || ''} ${paciente.apellido || ''}`.trim();
+                      return (
+                        <li
+                          key={paciente.id_paciente}
+                          role="option"
+                          aria-selected={String(idPacienteSeleccionado) === String(paciente.id_paciente)}
+                          tabIndex={0}
+                          onMouseDown={() => seleccionarPaciente(paciente)}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                              seleccionarPaciente(paciente);
+                            }
+                          }}
+                        >
+                          {nombreCompleto || 'Paciente'}
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="historial-paciente-sin-resultados" role="option" aria-selected="false" aria-disabled="true">
+                      Sin resultados
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
           </div>
           <button
             type="button"

@@ -11,7 +11,13 @@ function Barra({ glucosa, insulina, bmi }) {
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 18, right: 20, left: 10, bottom: 42 }}>
-          <XAxis dataKey="name" type="category" />
+          <XAxis
+            dataKey="name"
+            type="category"
+            interval={0}
+            tickMargin={10}
+            tick={{ fontSize: 12, fill: '#1f4f74' }}
+          />
           <YAxis />
           <Tooltip />
           <Legend verticalAlign="bottom" align="center" height={28} wrapperStyle={{ fontSize: 12 }} />

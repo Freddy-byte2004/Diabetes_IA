@@ -5,8 +5,8 @@ export async function getAll(id_institucion) {
   return Array.isArray(res.data) ? res.data : [];
 }
 
-export async function getById(id) {
-  const res = await api.get(`/paciente/${id}`);
+export async function getById(id, id_institucion) {
+  const res = await api.get(`/paciente/${id}/institucion/${id_institucion}`);
   return res.data;
 }
 

@@ -18,17 +18,18 @@ export async function getHistorialByPaciente(idPaciente) {
   return [];
 }
 
-export async function getPacienteInfo(idPaciente) {
+export async function getPacienteInfo(idPaciente, idInstitucion) {
   if (!idPaciente) return null;
-  const res = await getPacienteById(idPaciente);
+  if (!idInstitucion) return null;
+  const res = await getPacienteById(idPaciente, idInstitucion);
   if (!res) return null;
   if (Array.isArray(res)) return res[0] || null;
   return res;
 }
 
-export async function fetchFullHistorial(idPaciente) {
+export async function fetchFullHistorial(idPaciente, idInstitucion) {
   const [pacienteRaw, analisisRaw] = await Promise.all([
-    getPacienteInfo(idPaciente),
+    getPacienteInfo(idPaciente, idInstitucion),
     getHistorialByPaciente(idPaciente),
   ]);
 

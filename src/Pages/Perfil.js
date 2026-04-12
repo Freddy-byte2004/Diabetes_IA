@@ -1,5 +1,5 @@
 
-    import Tabla from "../Componentes/puta"
+    import Tabla from "../Componentes/TablaPerfil";
     import {Navbar} from "../Componentes/Navbar"
     import "../css/perfil.css"
     import { useCallback, useEffect, useState } from "react";

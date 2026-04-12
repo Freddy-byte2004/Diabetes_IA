@@ -3,7 +3,7 @@ import '../css/UsuarioPrincipal.css';
 import {Navbar} from '../Componentes/Navbar';
 import {ProbabilityDonut} from '../Componentes/barraDonat.js';
 import { Barra } from '../Componentes/barra.js';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { getAll as getAllPacientes } from '../services/pacienteService';
 import { createAnalysis, getProbability } from '../services/analisisService';
 import { useEffect } from 'react';
@@ -17,6 +17,9 @@ function UsuarioPrincipal(){
     const Fecha_de_analisis= hoy.toISOString().split('T')[0];
     const [pacientes, setPacientes] = useState([]);
     const [id_paciente, setId_paciente] = useState('');
+    const [busquedaPaciente, setBusquedaPaciente] = useState('');
+    const [mostrarOpcionesPaciente, setMostrarOpcionesPaciente] = useState(false);
+    const buscadorPacienteRef = useRef(null);
     const [n_embarazos, setN_embarazos] = useState('');
     const [indice_glucosa, setIndice_glucosa] = useState('');
     const [presion_arterial, setPresion_arterial] = useState('');
@@ -57,8 +60,30 @@ function UsuarioPrincipal(){
        
     }
 
-    function handlePacienteChange(event) {
-        setId_paciente(event.target.value);
+    const pacientesFiltrados = useMemo(() => {
+        const termino = busquedaPaciente.trim().toLowerCase();
+        if (!termino) {
+            return pacientes;
+        }
+
+        return pacientes.filter((paciente) => {
+            const nombreCompleto = `${paciente.nombre || ''} ${paciente.apellido || ''}`.toLowerCase();
+            return nombreCompleto.includes(termino);
+        });
+    }, [pacientes, busquedaPaciente]);
+
+    function seleccionarPaciente(pacienteSeleccionado) {
+        const idSeleccionado = String(pacienteSeleccionado.id_paciente || '');
+        const nombreCompleto = `${pacienteSeleccionado.nombre || ''} ${pacienteSeleccionado.apellido || ''}`.trim() || 'Paciente';
+        setId_paciente(idSeleccionado);
+        setBusquedaPaciente(nombreCompleto);
+        setMostrarOpcionesPaciente(false);
+    }
+
+    function handlePacienteBusquedaChange(event) {
+        setBusquedaPaciente(event.target.value);
+        setId_paciente('');
+        setMostrarOpcionesPaciente(true);
     }
 
     function handleIndiceGlucosaChange(event) {
@@ -131,6 +156,19 @@ function UsuarioPrincipal(){
 
         obtenerProbabilidadPacienteSeleccionado();
     }, [id_paciente]);
+
+    useEffect(() => {
+        function handleClickFuera(event) {
+            if (!buscadorPacienteRef.current?.contains(event.target)) {
+                setMostrarOpcionesPaciente(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickFuera);
+        return () => {
+            document.removeEventListener('mousedown', handleClickFuera);
+        };
+    }, []);
 
     async function onSubmit(event) {  
         event.preventDefault();
@@ -221,14 +259,47 @@ function UsuarioPrincipal(){
                     <form className='Formulario' onSubmit={onSubmit}>
                         <h1> Entrada de datos clinicos</h1>
                             <div className='unit-input-group select-paciente-group'>
-                                <select value={id_paciente} onChange={handlePacienteChange} className='input-field input-con-unidad select-paciente' required>
-                                    <option value=''>Selecciona un paciente</option>
-                                    {pacientes.map((paciente) => (
-                                        <option key={paciente.id_paciente} value={paciente.id_paciente}>
-                                            {`${paciente.nombre} ${paciente.apellido}`}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className='select-paciente-buscador' ref={buscadorPacienteRef}>
+                                    <input
+                                        type='text'
+                                        value={busquedaPaciente}
+                                        onChange={handlePacienteBusquedaChange}
+                                        onFocus={() => setMostrarOpcionesPaciente(true)}
+                                        className='input-field input-con-unidad select-paciente'
+                                        placeholder='Selecciona o busca un paciente'
+                                        autoComplete='off'
+                                        aria-label='Seleccionar paciente'
+                                    />
+                                    {mostrarOpcionesPaciente && (
+                                        <ul className='select-paciente-opciones' role='listbox'>
+                                            {pacientesFiltrados.length > 0 ? (
+                                                pacientesFiltrados.map((paciente) => {
+                                                    const nombreCompleto = `${paciente.nombre || ''} ${paciente.apellido || ''}`.trim() || 'Paciente';
+                                                    return (
+                                                        <li
+                                                            key={paciente.id_paciente}
+                                                            role='option'
+                                                            aria-selected={String(id_paciente) === String(paciente.id_paciente)}
+                                                            tabIndex={0}
+                                                            onMouseDown={() => seleccionarPaciente(paciente)}
+                                                            onKeyDown={(event) => {
+                                                                if (event.key === 'Enter') {
+                                                                    seleccionarPaciente(paciente);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {nombreCompleto}
+                                                        </li>
+                                                    );
+                                                })
+                                            ) : (
+                                                <li className='select-paciente-sin-resultados' role='option' aria-selected='false' aria-disabled='true'>
+                                                    Sin resultados
+                                                </li>
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
                             </div>
                             <div className='unit-input-group'>
                                 <input type="number" placeholder="Numero de embarazos" value={n_embarazos} onChange={handleN_embarazosChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />

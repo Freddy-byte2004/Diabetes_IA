@@ -83,7 +83,8 @@ function Pacientes() {
 
 	const abrirEdicion = async (idPaciente) => {
 		try {
-			const pacienteRes = await getById(idPaciente);
+			const idInstitucion = localStorage.getItem("id_institucion");
+			const pacienteRes = await getById(idPaciente, idInstitucion);
 			const paciente = Array.isArray(pacienteRes)
 				? (pacienteRes[0] || {})
 				: (pacienteRes || {});
