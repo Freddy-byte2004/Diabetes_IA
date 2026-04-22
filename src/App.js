@@ -16,10 +16,11 @@ function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<UsuarioPrincipal />} />
+     
       <Route path="/registro" element={<RegistroUsuario />} />
         <Route path="/solicitar-codigo" element={<SolicitarCodigo />} />
           <Route path="/verificar-codigo" element={<VerificarCodigo />} />
+           <Route path="/dashboard" element={<PrivateRoute><UsuarioPrincipal /></PrivateRoute>} />
       <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
       <Route path="/historial" element={<PrivateRoute><Historial /></PrivateRoute>} />
       <Route path="/pacientes" element={<PrivateRoute><Pacientes /></PrivateRoute>} />
