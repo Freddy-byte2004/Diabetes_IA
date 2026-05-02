@@ -128,18 +128,18 @@ input[type="number"]{
 
 .contenedor-grafica{
 position: absolute;
-    top: 20px;
+    top: 30px;
     right: 20px;
-    width: 200px;
+    width: 250px;
     height: 200px;
     z-index: 2;
 }
 .contenedor-grafica-barra{
     position: absolute;
-    bottom: 20px;
-    top: 60%;
-    left: 70%;
+    top: 450px;
     right: 20px;
+    left: auto;
+    bottom: auto;
     width: 250px;
     height: 250px;
     z-index: 1;

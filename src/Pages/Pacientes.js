@@ -12,6 +12,7 @@ const pacienteInicial = {
 	telefono: "",
 	direccion: "",
 	sexo: "",
+	grupo_sanguineo: "",
 	fecha_de_nacimiento: "",
 	fecha_de_diagnostico: ""
 };
@@ -98,6 +99,7 @@ function Pacientes() {
 				telefono: paciente.telefono || "",
 				direccion: paciente.direccion || "",
 				sexo: paciente.sexo || "",
+				grupo_sanguineo: paciente.grupo_sanguineo || "",
 				fecha_de_nacimiento: normalizarFechaInput(paciente.fecha_de_nacimiento),
 				fecha_de_diagnostico: normalizarFechaInput(paciente.fecha_de_diagnostico)
 			});
@@ -140,6 +142,7 @@ function Pacientes() {
 				direccion: formData.direccion,
 				telefono: formData.telefono,
 				sexo: formData.sexo,
+				grupo_sanguineo: formData.grupo_sanguineo,
 				fecha_de_nacimiento: formData.fecha_de_nacimiento,
 				fecha_de_diagnostico: formData.fecha_de_diagnostico
 			};
@@ -267,6 +270,7 @@ function Pacientes() {
 											<th>Dirección</th>
 											<th>Teléfono</th>
 											<th>Sexo</th>
+											<th>Grupo sanguíneo</th>
 											<th>Fecha de nacimiento</th>
 											<th>Fecha de diagnóstico</th>
 											<th>Acciones</th>
@@ -284,6 +288,7 @@ function Pacientes() {
 													<td>{paciente.direccion || "No disponible"}</td>
 													<td>{paciente.telefono || "No disponible"}</td>
 													<td>{paciente.sexo || "No disponible"}</td>
+													<td>{paciente.grupo_sanguineo || "No disponible"}</td>
 													<td>{formatearFechaVista(paciente.fecha_de_nacimiento)}</td>
 													<td>{formatearFechaVista(paciente.fecha_de_diagnostico)}</td>
 													<td>
@@ -363,6 +368,21 @@ function Pacientes() {
 									<option value="Masculino">Masculino</option>
 									<option value="Femenino">Femenino</option>
 									<option value="Otro">Otro</option>
+								</select>
+							</label>
+
+							<label>
+								Grupo sanguineo
+								<select name="grupo_sanguineo" value={formData.grupo_sanguineo} onChange={handleInputChange} required>
+									<option value="">Selecciona</option>
+									<option value="A+">A+</option>
+									<option value="A-">A-</option>
+									<option value="B+">B+</option>
+									<option value="B-">B-</option>
+									<option value="AB+">AB+</option>
+									<option value="AB-">AB-</option>
+									<option value="O+">O+</option>
+									<option value="O-">O-</option>
 								</select>
 							</label>
 

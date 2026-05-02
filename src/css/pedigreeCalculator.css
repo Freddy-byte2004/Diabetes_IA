@@ -1,0 +1,311 @@
+.pedigree-field-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pedigree-field-input {
+    width: 214px !important;
+    padding-right: 12px !important;
+}
+
+.pedigree-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #bfd8ee;
+    border-radius: 12px;
+    background: #f8fcff;
+    color: #2a6f9b;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.pedigree-trigger:hover,
+.pedigree-trigger:focus-visible {
+    outline: none;
+    border-color: #4d97ca;
+    box-shadow: 0 0 0 3px rgba(77, 151, 202, 0.18);
+    transform: translateY(-1px);
+}
+
+.pedigree-trigger svg {
+    font-size: 18px;
+}
+
+.pedigree-trigger-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(4px);
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #1f4f74;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 12px 28px rgba(20, 61, 89, 0.22);
+    z-index: 20;
+}
+
+.pedigree-trigger-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1f4f74 transparent transparent transparent;
+}
+
+.pedigree-trigger:hover .pedigree-trigger-tooltip,
+.pedigree-trigger:focus-visible .pedigree-trigger-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.pedigree-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 28, 45, 0.46);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.pedigree-modal {
+    width: min(calc(100vw - 36px), 920px);
+    max-height: calc(100vh - 36px);
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 40px rgba(15, 49, 78, 0.26);
+    padding: 28px 30px;
+    box-sizing: border-box;
+}
+
+.pedigree-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.pedigree-modal-header h2 {
+    margin: 0 0 6px;
+    color: #214f74;
+    text-align: left;
+}
+
+.pedigree-modal-header p {
+    margin: 0;
+    color: #6d879d;
+    font-size: 14px;
+}
+
+.pedigree-modal-close {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #eff5fb;
+    color: #2d5e84;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.pedigree-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    gap: 18px;
+}
+
+.pedigree-section {
+    padding: 16px;
+    border: 1px solid #d7e6f2;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fbfdff 0%, #f2f8fc 100%);
+    min-width: 0;
+}
+
+.pedigree-section h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: #23567c;
+}
+
+.pedigree-check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #335f82;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.pedigree-check-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #4d97ca;
+}
+
+.pedigree-check-row-with-input {
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.pedigree-inline-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pedigree-check-row-with-input input[type="number"] {
+    width: 88px;
+    padding: 10px 12px;
+    border: 1px solid #c3d8ea;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #204e73;
+    background: #ffffff;
+}
+
+.pedigree-check-row-with-input input[type="number"]:disabled {
+    background: #eef3f8;
+    color: #90a4b4;
+}
+
+.pedigree-result-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #eef7fd;
+    color: #29587d;
+}
+
+.pedigree-result-box span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pedigree-result-box strong {
+    font-size: 22px;
+}
+
+.pedigree-risk-alert {
+    margin-top: 10px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pedigree-risk-low {
+    background: #eaf7ef;
+    border: 1px solid #91d1a6;
+    color: #22643a;
+}
+
+.pedigree-risk-moderate {
+    background: #fff8e8;
+    border: 1px solid #f0c67b;
+    color: #8a5f12;
+}
+
+.pedigree-risk-high {
+    background: #ffecec;
+    border: 1px solid #f0a5a5;
+    color: #8f2a2a;
+}
+
+.pedigree-max-alert {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #f3c26f;
+    background: #fff6e7;
+    color: #8a5b10;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pedigree-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.pedigree-primary-button,
+.pedigree-secondary-button {
+    border: none;
+    border-radius: 12px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pedigree-primary-button {
+    background: #5988ce;
+    color: #ffffff;
+}
+
+.pedigree-secondary-button {
+    background: #eef4f9;
+    color: #2f6086;
+}
+
+@media (max-width: 768px) {
+    .pedigree-field-row {
+        width: 100%;
+    }
+
+    .pedigree-field-input {
+        width: 100% !important;
+    }
+
+    .pedigree-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pedigree-modal {
+        width: 100%;
+        padding: 22px 18px;
+    }
+
+    .pedigree-check-row-with-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pedigree-check-row-with-input input[type="number"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .pedigree-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .pedigree-primary-button,
+    .pedigree-secondary-button {
+        width: 100%;
+    }
+}

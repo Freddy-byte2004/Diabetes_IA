@@ -8,6 +8,7 @@ import { getAll as getAllPacientes } from '../services/pacienteService';
 import { createAnalysis, getProbability } from '../services/analisisService';
 import { useEffect } from 'react';
 import AlertMessage from '../Componentes/AlertMessage.js';
+import PedigreeCalculator from '../Componentes/PedigreeCalculator.js';
 
 import '../css/input.css'
 function UsuarioPrincipal(){
@@ -108,6 +109,10 @@ function UsuarioPrincipal(){
 
     function handleHerenciaDiabeticaChange(event) {
         setHerencia_diabetica(event.target.value);
+    }
+
+    function handlePedigreeCalculated(value) {
+        setHerencia_diabetica(String(value));
     }
 
     function handleEdadChange(event) {
@@ -310,7 +315,7 @@ function UsuarioPrincipal(){
                                 <span className='unit-suffix'>mg/dL</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Presion arterial sistolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
+                                <input type="number" placeholder="Presion arterial diastolica" value={presion_arterial} onChange={handlePresionArterialChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
                                 <span className='unit-suffix'>mmHg</span>
                             </div>
                             <div className='unit-input-group'>
@@ -326,7 +331,10 @@ function UsuarioPrincipal(){
                                 <span className='unit-suffix'>kg/m2</span>
                             </div>
                             <div className='unit-input-group'>
-                                <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} className='input-field input-con-unidad' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
+                                <div className='pedigree-field-row'>
+                                    <input type="number" placeholder="Funcion de herencia diabetica" value={herencia_diabetica} onChange={handleHerenciaDiabeticaChange} className='input-field input-con-unidad pedigree-field-input' required onInvalid={setNumeroValidationMessage} onInput={clearValidationMessage} />
+                                    <PedigreeCalculator onCalculated={handlePedigreeCalculated} />
+                                </div>
                                 
                             </div>
                             <div className='unit-input-group'>
