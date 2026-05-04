@@ -43,6 +43,17 @@ const formatearFechaVista = (valor) => {
 	return fecha.toLocaleDateString("es-ES");
 };
 
+const soloDigitos = (valor = "") => valor.replace(/\D/g, "");
+
+const formatearTelefonoInput = (valor = "") => {
+	const digitos = soloDigitos(valor).slice(0, 11);
+	if (digitos.length <= 4) {
+		return digitos;
+	}
+
+	return `${digitos.slice(0, 4)}-${digitos.slice(4)}`;
+};
+
 function Pacientes() {
 	const [pacientes, setPacientes] = useState([]);
 	const [busqueda, setBusqueda] = useState("");
@@ -95,8 +106,8 @@ function Pacientes() {
 			setFormData({
 				nombre: paciente.nombre || "",
 				apellido: paciente.apellido || "",
-				cedula: paciente.cedula || "",
-				telefono: paciente.telefono || "",
+				cedula: soloDigitos(paciente.cedula || ""),
+				telefono: formatearTelefonoInput(paciente.telefono || ""),
 				direccion: paciente.direccion || "",
 				sexo: paciente.sexo || "",
 				grupo_sanguineo: paciente.grupo_sanguineo || "",
@@ -124,6 +135,23 @@ function Pacientes() {
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
+
+		if (name === "cedula") {
+			setFormData((prev) => ({
+				...prev,
+				cedula: soloDigitos(value)
+			}));
+			return;
+		}
+
+		if (name === "telefono") {
+			setFormData((prev) => ({
+				...prev,
+				telefono: formatearTelefonoInput(value)
+			}));
+			return;
+		}
+
 		setFormData((prev) => ({
 			...prev,
 			[name]: value
@@ -135,12 +163,27 @@ function Pacientes() {
 
 		setGuardando(true);
 		try {
+			const cedulaNumerica = soloDigitos(formData.cedula);
+			const telefonoNumerico = soloDigitos(formData.telefono);
+
+			if (!cedulaNumerica) {
+				setMensaje("La cédula solo debe contener números");
+				setTipoMensaje("error");
+				return;
+			}
+
+			if (telefonoNumerico.length !== 11) {
+				setMensaje("El teléfono debe contener 11 dígitos (ejemplo: 0414-1234567)");
+				setTipoMensaje("error");
+				return;
+			}
+
 			const payload = {
-				cedula: formData.cedula,
+				cedula: cedulaNumerica,
 				nombre: formData.nombre,
 				apellido: formData.apellido,
 				direccion: formData.direccion,
-				telefono: formData.telefono,
+				telefono: telefonoNumerico,
 				sexo: formData.sexo,
 				grupo_sanguineo: formData.grupo_sanguineo,
 				fecha_de_nacimiento: formData.fecha_de_nacimiento,
@@ -343,7 +386,15 @@ function Pacientes() {
 						<form className="pacientes-form" onSubmit={guardarEdicion}>
 							<label>
 								Cédula
-								<input name="cedula" value={formData.cedula} onChange={handleInputChange} required />
+								<input
+									name="cedula"
+									value={formData.cedula}
+									onChange={handleInputChange}
+									inputMode="numeric"
+									pattern="[0-9]+"
+									title="La cédula solo debe contener números"
+									required
+								/>
 							</label>
 
 							<label>
@@ -358,7 +409,17 @@ function Pacientes() {
 
 							<label>
 								Teléfono
-								<input name="telefono" value={formData.telefono} onChange={handleInputChange} required />
+								<input
+									name="telefono"
+									value={formData.telefono}
+									onChange={handleInputChange}
+									placeholder="0414-1234567"
+									inputMode="numeric"
+									maxLength={12}
+									pattern="[0-9]{4}-[0-9]{7}"
+									title="Formato requerido: 0414-1234567"
+									required
+								/>
 							</label>
 
 							<label>
