@@ -273,6 +273,114 @@ a:hover {
    background: #2b4f84;
 }
 
+.dialogo-verificacion {
+   max-width: 500px;
+}
+
+.texto-expiracion {
+   font-size: 0.95rem;
+   color: #45617f;
+   margin-top: 2px;
+}
+
+.label-verificacion {
+   display: block;
+   margin-top: 12px;
+   margin-bottom: 6px;
+   font-family: 'Montserrat', Arial, sans-serif;
+   font-size: 0.92rem;
+   font-weight: 600;
+   color: #1f4361;
+}
+
+.input-codigo-verificacion {
+   width: 100%;
+   border: 1px solid #b4c8e6;
+   border-radius: 8px;
+   padding: 11px 12px;
+   font-size: 0.98rem;
+   background: #fff;
+   color: #21394f;
+   font-family: 'Montserrat', Arial, sans-serif;
+   box-sizing: border-box;
+}
+
+.input-codigo-verificacion:focus {
+   border-color: #3f6db3;
+   box-shadow: 0 0 0 2px rgba(63, 109, 179, 0.18);
+}
+
+.mensaje-modal-error,
+.mensaje-modal-exito {
+   margin-top: 10px;
+   margin-bottom: 0;
+   font-family: 'Montserrat', Arial, sans-serif;
+   font-size: 0.92rem;
+}
+
+.mensaje-modal-error {
+   color: #c72c2c;
+}
+
+.mensaje-modal-exito {
+   color: #1e7e42;
+}
+
+.acciones-modal-verificacion {
+   margin-top: 16px;
+   display: flex;
+   gap: 10px;
+   flex-wrap: wrap;
+}
+
+.boton-verificar-codigo {
+   flex: 1;
+   min-width: 180px;
+}
+
+.boton-secundario-verificacion {
+   background: #9aa9bc;
+}
+
+.boton-secundario-verificacion:hover {
+   background: #7f90a7;
+}
+
+.boton-codigo-dialogo:disabled,
+.link-reenviar-codigo:disabled {
+   opacity: 0.6;
+   cursor: not-allowed;
+}
+
+.bloque-reenvio-codigo {
+   margin-top: 16px;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-wrap: wrap;
+   font-family: 'Montserrat', Arial, sans-serif;
+   color: #385471;
+   font-size: 0.92rem;
+}
+
+.link-reenviar-codigo {
+   border: none;
+   background: transparent;
+   color: #2d65b2;
+   font-family: 'Montserrat', Arial, sans-serif;
+   font-size: 0.92rem;
+   text-decoration: underline;
+   cursor: pointer;
+   padding: 0;
+}
+
+.correo-verificacion {
+   margin-top: 14px;
+   font-size: 0.85rem;
+   color: #607a97;
+   word-break: break-all;
+}
+
 @media (max-width: 768px) {
    .Contenedor-principal-login {
       padding: 20px 12px;
@@ -309,6 +417,16 @@ a:hover {
 
    .Contenedor-registro {
       width: 100%;
+   }
+
+   .acciones-modal-verificacion {
+      flex-direction: column;
+   }
+
+   .boton-verificar-codigo,
+   .boton-secundario-verificacion {
+      width: 100%;
+      min-width: 0;
    }
 
    .input-correo,

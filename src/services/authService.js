@@ -10,6 +10,16 @@ export async function register({ usuario, contrasena, nombre }) {
   return res.data;
 }
 
+export async function verifyAccount({ usuario, codigo }) {
+  const res = await api.post('/auth/verify-account', { usuario, codigo });
+  return res.data;
+}
+
+export async function resendVerificationCode({ usuario }) {
+  const res = await api.post('/auth/resend-verification-code', { usuario });
+  return res.data;
+}
+
 export async function requestNewCode(usuario) {
   const res = await api.post('/auth/new-code', { usuario });
   return res.data;

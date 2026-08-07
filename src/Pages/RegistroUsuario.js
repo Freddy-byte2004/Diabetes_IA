@@ -1,11 +1,12 @@
 import Logo from '../Logo2.jpeg';
 import '../css/login.css';
 import { useState } from 'react';
-import { register } from '../services/authService';
+import { register, verifyAccount, resendVerificationCode } from '../services/authService';
 import { AiFillMail, AiFillLock, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AlertMessage from '../Componentes/AlertMessage';
+import VerificationModal from '../Componentes/VerificationModal';
 
 
 function RegistroUsuario() {
@@ -15,8 +16,9 @@ function RegistroUsuario() {
   const [nombre,setNombre]= useState('');
   const [confirmarContraseña,setConfirmarContraseña]= useState('');
   const [error, setError] = useState(''); 
-  const [codigoUnico, setCodigoUnico] = useState('');
-  const [mostrarDialogoCodigo, setMostrarDialogoCodigo] = useState(false);
+  const [mostrarModalVerificacion, setMostrarModalVerificacion] = useState(false);
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const [isResendingCode, setIsResendingCode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,15 +71,6 @@ function RegistroUsuario() {
     event.target.setCustomValidity('');
   }
 
-  function setNombreValidationMessage(event) {
-    if (event.target.validity.valueMissing) {
-      event.target.setCustomValidity('Completa este campo');
-      return;
-    }
-
-    event.target.setCustomValidity('');
-  }
-
   function handleCorreo(e){
    setCorreo(e.target.value);
   
@@ -96,12 +89,64 @@ function RegistroUsuario() {
     setConfirmarContraseña(e.target.value);
   }
 
+  async function handleVerifyAccount(codigo) {
+    setIsVerifyingCode(true);
+    try {
+      const resData = await verifyAccount({ usuario: correo, codigo });
+      const message = resData?.message?.trim();
+
+      if (message === 'Cuenta verificada exitosamente') {
+        setTimeout(() => {
+          setMostrarModalVerificacion(false);
+          navigate('/login');
+        }, 1800);
+
+        return {
+          ok: true,
+          message: 'Cuenta verificada exitosamente. Redirigiendo al inicio de sesion...'
+        };
+      }
+
+      return {
+        ok: false,
+        message: message || 'No se pudo verificar la cuenta.'
+      };
+    } catch (err) {
+      const backendMessage = err.response?.data?.message?.trim();
+      return {
+        ok: false,
+        message: backendMessage || 'Error al verificar la cuenta.'
+      };
+    } finally {
+      setIsVerifyingCode(false);
+    }
+  }
+
+  async function handleResendCode() {
+    setIsResendingCode(true);
+    try {
+      const resData = await resendVerificationCode({ usuario: correo });
+      return {
+        ok: true,
+        message: resData?.message?.trim() || 'Te enviamos un nuevo codigo a tu correo.'
+      };
+    } catch (err) {
+      const backendMessage = err.response?.data?.message?.trim();
+      return {
+        ok: false,
+        message: backendMessage || 'No se pudo reenviar el codigo.'
+      };
+    } finally {
+      setIsResendingCode(false);
+    }
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
     setIsSubmitting(true);
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-    if (!correo || !contraseña || !confirmarContraseña || !nombre) {
+    if (!correo || !contraseña || !confirmarContraseña) {
       setError("Por favor, complete todos los campos");
       setIsSubmitting(false);
       return;
@@ -116,7 +161,7 @@ function RegistroUsuario() {
 
     // Validación: más de 6 caracteres, al menos un número y un carácter especial
     const regexNumero = /[0-9]/;
-    const regexEspecial = /[!@#$%^&*(),.?":{}|<>_\-]/;
+    const regexEspecial = /[!@#$%^&*(),.?":{}|<>_-]/;
     const regexMayuscula = /[A-Z]/;
     if (contraseña.length <= 6) {
       setError('La contraseña debe tener más de 6 caracteres');
@@ -147,14 +192,19 @@ function RegistroUsuario() {
 
     try{
       const resData = await register({ usuario: correo, contrasena: contraseña, nombre });
-      console.log('respuesta del backend', resData.message);
-      if (resData.message === 'Usuario registrado exitosamente') {
+      const backendMessage = resData?.message?.trim() || '';
+      console.log('respuesta del backend', backendMessage);
+
+      const registroExitoso =
+        /registrad|registro|cuenta creada/i.test(backendMessage) ||
+        resData?.success === true;
+
+      if (registroExitoso) {
         setError('');
-        setCodigoUnico(resData.codigo_unico || 'No disponible');
-        setMostrarDialogoCodigo(true);
+        setMostrarModalVerificacion(true);
       } else {
-        console.log('Error en el registro:', resData.message);
-        setError(resData.message?.trim() || 'Error en el registro');
+        console.log('Error en el registro:', backendMessage);
+        setError(backendMessage || 'Error en el registro');
       }
     }catch(err){
       console.log(err);
@@ -174,31 +224,20 @@ function RegistroUsuario() {
 return( 
   <div className='Contenedor-principal-login'>
     <AlertMessage message={error} type="error" onClose={() => setError('')} />
-
-    {mostrarDialogoCodigo && (
-      <div className='dialogo-overlay-codigo'>
-        <div className='dialogo-codigo'>
-          <h2>Registro exitoso</h2>
-          <p>
-            Este es tu codigo unico:
-          </p>
-          <div className='codigo-unico-valor'>{codigoUnico}</div>
-          <p>
-            Guardalo en un lugar seguro. No volveras a verlo y lo necesitaras para cambiar o recuperar tu contraseña.
-          </p>
-          <button
-            type='button'
-            className='boton-codigo-dialogo'
-            onClick={() => {
-              setMostrarDialogoCodigo(false);
-              navigate('/login');
-            }}
-          >
-            Entendido
-          </button>
-        </div>
-      </div>
-    )}
+    <VerificationModal
+      isOpen={mostrarModalVerificacion}
+      usuario={correo}
+      title='Verifica tu cuenta'
+      subtitle='Ingresa el codigo de verificacion que enviamos a tu correo para activar tu cuenta.'
+      onVerify={handleVerifyAccount}
+      onResend={handleResendCode}
+      onClose={() => setMostrarModalVerificacion(false)}
+      verifyLabel='Verificar cuenta'
+      resendCooldownSeconds={60}
+      expirationMinutes={15}
+      loadingVerify={isVerifyingCode}
+      loadingResend={isResendingCode}
+    />
 
     <div className='Contenedor-registro'>
         <div className='logo'>
@@ -263,7 +302,7 @@ return(
                     </button>
                   </div>
                 </div>
-                <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese el nombre de la institucion' value={nombre} onChange={handleNombre} required onInvalid={setNombreValidationMessage} onInput={(e) => e.target.setCustomValidity('')} disabled={isSubmitting} /></div>
+                <div className='input-correo'><AiFillMail />  <input type="text" placeholder='Ingrese el nombre de la institucion (opcional)' value={nombre} onChange={handleNombre}  disabled={isSubmitting} /></div>
                 <input type="submit" value={isSubmitting ? "Registrando..." : "Registrar"} className='boton' disabled={isSubmitting} />
             </form>
             
