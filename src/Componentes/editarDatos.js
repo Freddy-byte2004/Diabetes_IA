@@ -18,24 +18,7 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
     return `${digits.slice(0, 4)}-${digits.slice(4)}`;
   };
   
-  const codeDialog = showCodeDialog && newCode?.codigo_unico
-    ? createPortal(
-        <div className="code-dialog-overlay">
-          <div className="code-dialog">
-            <h4>Nuevo código único</h4>
-            <p className="code-dialog-value">{newCode.codigo_unico}</p>
-            <p>
-              Recuerda guardar este código, ya que no lo volverás a ver más.
-            </p>
-            <p>
-              Este código es importante porque puede ser requerido para validaciones futuras y recuperación de contraseñas.
-            </p>
-            <button type="button" style={{ backgroundColor: "#30759c", color: "#fff", padding: "10px 14px", border: "none", borderRadius: "6px", cursor: "pointer" }} onClick={() => setShowCodeDialog(false)}>Entendido</button>
-          </div>
-        </div>,
-        document.body
-      )
-    : null;
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,17 +62,7 @@ function EditarDatos({ usuario, onClose, onSave, actualizarDatos }) {
 });
     onClose(); // Cierra el formulario
   };
-async function generarCodigo() {
-  try{
-    const usuario = localStorage.getItem("correo_usuario");
-    const response = await api.post('/auth/new-code', { usuario });
-    setNewCode(response.data);
-    setShowCodeDialog(Boolean(response.data?.codigo_unico));
-  
-  }catch(error){
-    console.error("Error al generar el código:", error);
-  }
-}
+
   const editDialog = createPortal(
     <div className="modal-edicion-overlay">
       <div className="modal-edicion">
@@ -112,7 +85,7 @@ async function generarCodigo() {
               onClose={() => setTelefonoError("")}
             />
           )}
-          <button type="button" onClick={generarCodigo}>Generar código</button>
+
           <button type="submit">Guardar</button>
           <button type="button" onClick={onClose}>Cancelar</button>
         </form>
@@ -123,7 +96,7 @@ async function generarCodigo() {
   return (
     <>
       {editDialog}
-      {codeDialog}
+      {/* {codeDialog} */}
     </>
   );
 }
