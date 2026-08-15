@@ -145,14 +145,21 @@ function Login() {
         setError(resData.message?.trim() || 'Credenciales incorrectas');
       }
     } catch (err) {
+      const statusCode = err.response?.status;
       const backendMessage = err.response?.data?.message?.trim();
+
+      if (statusCode === 429) {
+        setError('Demasiadas solicitudes. Por favor, espera 15 minutos antes de intentar nuevamente.');
+      } else
       if (backendMessage === 'Debes verificar tu cuenta antes de iniciar sesión') {
         setError('');
         setShowVerificationModal(true);
+      } else if (backendMessage?.toLowerCase().includes('demasiadas solicitudes')) {
+        setError('Demasiadas solicitudes. Por favor, espera 15 minutos antes de intentar nuevamente.');
       } else if (backendMessage) {
         setError(backendMessage || "Error al conectar con el servidor");
         console.log("Error del servidor:", backendMessage);
-      } else {
+      }else{
         setError("Error al conectar con el servidor");
       }
     } finally {

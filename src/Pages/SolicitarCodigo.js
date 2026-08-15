@@ -183,8 +183,9 @@ function SolicitarCodigo() {
       <div className="regresar-login" style={{ cursor: "default" }}>
        
         <button
+        className="link-reenviar-codigo"
           type="button"
-          className="boton-codigo"
+          //className="boton-codigo"
           onClick={reenviarCodigo}
           disabled={resendTimer > 0 || isResending || isSubmitting}
         >
